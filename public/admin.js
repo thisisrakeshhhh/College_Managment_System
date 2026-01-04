@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="search-card" id="searchCard">
                             <div class="search-section">
                                 <div class="form-group">
-                                    <h3 class="section-title">
+                                    <h3 class="section-title" style="color : blue;">
                                         <i class="fas fa-search"></i> Find Student
                                     </h3>
                                     <label for="rollInput">Student Roll Number</label>

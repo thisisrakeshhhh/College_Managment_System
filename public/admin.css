@@ -900,6 +900,7 @@ textarea {
     font-weight: 600;
     color: var(--text);
     margin-bottom: 8px;
+    padding-top: 8px;
 }
 
 .modal-footer {
@@ -1081,6 +1082,7 @@ textarea {
 
 .leave-header {
     margin-bottom: 24px;
+    padding-top: 8px;
 }
 
 .leave-header h3 {
@@ -1088,6 +1090,7 @@ textarea {
     font-weight: 700;
     color: var(--text);
     margin: 0;
+    padding-top: 12px;
 }
 
 
