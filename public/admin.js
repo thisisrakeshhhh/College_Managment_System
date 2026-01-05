@@ -6,6 +6,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const notificationBell = document.getElementById('notificationBell');
     const notificationDropdown = document.getElementById('notificationDropdown');
 
+    // Link "View All Notifications" to render notifications page
+    const viewAllLink = document.querySelector('.view-all-link');
+    if (viewAllLink) {
+        viewAllLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Find the notification nav item (if it exists) or just render the page
+            pageTitle.textContent = 'Notifications';
+            renderPage('notifications');
+            notificationDropdown.classList.remove('active');
+            notificationBell.classList.remove('active');
+
+            // Remove active class from all nav items
+            navItems.forEach(nav => nav.classList.remove('active'));
+        });
+    }
+
     // Navigation Logic
     navItems.forEach(item => {
         item.addEventListener('click', () => {
@@ -42,6 +58,52 @@ document.addEventListener('DOMContentLoaded', () => {
         notificationDropdown.classList.remove('active');
         notificationBell.classList.remove('active');
     });
+
+    // --- Notification Logic Fix ---
+    function updateNotificationBadge() {
+        const badge = document.getElementById('notificationBadge');
+        if (!badge) return;
+
+        const unreadItems = document.querySelectorAll('.notification-item.unread');
+        const unreadCount = unreadItems.length;
+
+        if (unreadCount > 0) {
+            badge.textContent = unreadCount;
+            badge.style.display = 'flex';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    // Mark all as read click handler
+    const markAllReadBtn = document.querySelector('.mark-all-read');
+    if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const unreadItems = document.querySelectorAll('.notification-item.unread');
+            unreadItems.forEach(item => {
+                item.classList.remove('unread');
+            });
+            updateNotificationBadge();
+        });
+    }
+
+    // Individual notification click handler (using delegation for efficiency)
+    const notificationList = document.querySelector('.notification-list');
+    if (notificationList) {
+        notificationList.addEventListener('click', (e) => {
+            const item = e.target.closest('.notification-item');
+            if (item && item.classList.contains('unread')) {
+                e.stopPropagation();
+                item.classList.remove('unread');
+                updateNotificationBadge();
+            }
+        });
+    }
+
+    // Initialize badge count on load
+    updateNotificationBadge();
+    // --- End Notification Logic Fix ---
 
     // Initial Render
     renderPage('dashboard');
@@ -148,6 +210,14 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'dashboard':
                 appView.innerHTML = `
                     <div class="dashboard-view">
+                        <div class="section-header" style="margin-bottom: 24px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>Dashboard Overview</h3>
+                            </div>
+                        </div>
                         <div class="stats-grid">
                             <div class="stat-card">
                                 <div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div>
@@ -213,7 +283,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 appView.innerHTML = `
                     <div class="students-view">
                         <div class="section-header">
-                            <h3>Student Management</h3>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>Student Management</h3>
+                            </div>
                             <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Student</button>
                         </div>
                         <div class="table-container">
@@ -273,7 +348,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 appView.innerHTML = `
                      <div class="faculty-view">
                         <div class="section-header">
-                            <h3>Faculty Directory</h3>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>Faculty Directory</h3>
+                            </div>
                             <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Faculty</button>
                         </div>
                         <div class="table-container">
@@ -322,7 +402,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 appView.innerHTML = `
                     <div class="departments-view">
                         <div class="section-header">
-                            <h3>Departments</h3>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>Departments</h3>
+                            </div>
                             <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Department</button>
                         </div>
                         <div class="departments-grid">
@@ -355,6 +440,14 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'early-leave':
                 appView.innerHTML = `
                     <div class="view early-leave-view" id="early-leave">
+                        <div class="section-header" style="margin-bottom: 24px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>Early Leave Management</h3>
+                            </div>
+                        </div>
                         <div class="search-card" id="searchCard">
                             <div class="search-section">
                                 <div class="form-group">
@@ -567,10 +660,138 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 100);
                 break;
 
+            case 'notifications':
+                appView.innerHTML = `
+                    <div class="notifications-view">
+                        <div class="section-header">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>All Notifications</h3>
+                            </div>
+                            <button class="btn btn-secondary mark-all-read-full">Mark All as Read</button>
+                        </div>
+                        <div class="notification-full-list" style="background: white; border-radius: 16px; border: 2px solid var(--border); overflow: hidden;">
+                            <div class="notification-item unread" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper blue" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(74, 108, 247, 0.1); color: #4a6cf7;"><i class="fas fa-user-plus"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">New Student Registered</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">Rahul Sharma joined BCA Department</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">5 minutes ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper green" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(38, 222, 129, 0.1); color: #26de81;"><i class="fas fa-check-circle"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">Leave Request Approved</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">Priya Singh's leave request approved</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">1 hour ago</span>
+                                </div>
+                            </div>
+                             <div class="notification-item unread" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper orange" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(254, 211, 48, 0.1); color: #fed330;"><i class="fas fa-exclamation-triangle"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">Pending Action</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">3 early leave requests need review</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper purple" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(108, 92, 231, 0.1); color: #6c5ce7;"><i class="fas fa-calendar-alt"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">Event Reminder</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">Faculty meeting scheduled for tomorrow</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper blue" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(74, 108, 247, 0.1); color: #4a6cf7;"><i class="fas fa-file-alt"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">Report Generated</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">Monthly attendance report is ready</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">1 day ago</span>
+                                </div>
+                            </div>
+                             <div class="notification-item" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper green" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(38, 222, 129, 0.1); color: #26de81;"><i class="fas fa-user-check"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">Faculty Joined</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">New professor joined the Physics dept</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">2 days ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper orange" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(254, 211, 48, 0.1); color: #fed330;"><i class="fas fa-wallet"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">Fee Payment</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">System processed 50 student fee payments</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">3 days ago</span>
+                                </div>
+                            </div>
+                             <div class="notification-item" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper blue" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(74, 108, 247, 0.1); color: #4a6cf7;"><i class="fas fa-envelope"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">New Message from HOD</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">Please review the revised syllabus for next semester</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">4 days ago</span>
+                                </div>
+                            </div>
+                             <div class="notification-item" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; gap: 20px; transition: 0.3s; cursor: pointer;">
+                                <div class="notification-icon-wrapper purple" style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(108, 92, 231, 0.1); color: #6c5ce7;"><i class="fas fa-bullhorn"></i></div>
+                                <div class="notification-content">
+                                    <h4 style="margin-bottom: 5px;">System Maintenance</h4>
+                                    <p style="color: grey; margin-bottom: 5px;">Scheduled maintenance on Sunday midnight</p>
+                                    <span class="notification-time" style="font-size: 12px; color: #95a5a6;">5 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Re-attach handlers for buttons in the new view
+                const backBtn = appView.querySelector('.back-to-dashboard');
+                if (backBtn) {
+                    backBtn.addEventListener('click', () => {
+                        // Update UI to Home/Dashboard
+                        const dashboardNavItem = document.querySelector('.nav-item[data-page="dashboard"]');
+                        if (dashboardNavItem) {
+                            dashboardNavItem.click(); // Trigger the existing nav click logic
+                        } else {
+                            renderPage('dashboard');
+                            pageTitle.textContent = 'Dashboard';
+                        }
+                    });
+                }
+
+                const fullMarkBtn = appView.querySelector('.mark-all-read-full');
+                if (fullMarkBtn) {
+                    fullMarkBtn.addEventListener('click', () => {
+                        appView.querySelectorAll('.notification-item.unread').forEach(item => item.classList.remove('unread'));
+                        updateNotificationBadge();
+                    });
+                }
+
+                // Also add click handler for items in full list
+                appView.querySelectorAll('.notification-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        item.classList.remove('unread');
+                        updateNotificationBadge();
+                    });
+                });
+                break;
+
             case 'settings':
                 appView.innerHTML = `
                      <div class="settings-view">
-                        <h3>System Settings</h3>
+                        <div class="section-header" style="margin-bottom: 24px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>System Settings</h3>
+                            </div>
+                        </div>
                         <div class="settings-card">
                             <h4>General Configuration</h4>
                             <div class="setting-item">
@@ -595,5 +816,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 break;
         }
+
+        // --- Common Back Button Logic ---
+        const allBackBtns = appView.querySelectorAll('.back-to-dashboard');
+        allBackBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const dashboardNavItem = document.querySelector('.nav-item[data-page="dashboard"]');
+                if (dashboardNavItem) {
+                    dashboardNavItem.click();
+                } else {
+                    renderPage('dashboard');
+                    pageTitle.textContent = 'Dashboard';
+                }
+            });
+        });
+        // --- End Common Back Button Logic ---
     }
 });

@@ -12,9 +12,17 @@ import PlacementsSection from '../components/PlacementsSection';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 import LoginModal from '../components/LoginModal';
+import FeeStructureModal from '../components/FeeStructureModal';
 
 const LandingPage = () => {
     const [isLoginOpen, setLoginOpen] = useState(false);
+    const [isFeeModalOpen, setFeeModalOpen] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+
+    const openFeeModal = (course) => {
+        setSelectedCourse(course);
+        setFeeModalOpen(true);
+    };
 
     useEffect(() => {
         // Reveal animation logic
@@ -48,7 +56,7 @@ const LandingPage = () => {
                 <StatsSection />
                 <AboutSection />
                 <FacilitiesSection />
-                <CoursesSection />
+                <CoursesSection onFeeClick={openFeeModal} />
                 <AccreditationsSection />
                 <TestimonialsSection />
                 <PlacementsSection />
@@ -56,6 +64,11 @@ const LandingPage = () => {
             </main>
             <Footer />
             <LoginModal isOpen={isLoginOpen} onClose={() => setLoginOpen(false)} />
+            <FeeStructureModal
+                isOpen={isFeeModalOpen}
+                onClose={() => setFeeModalOpen(false)}
+                courseName={selectedCourse?.title}
+            />
         </>
     );
 };
