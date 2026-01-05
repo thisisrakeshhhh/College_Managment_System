@@ -1,0 +1,91 @@
+<img width="1902" height="889" alt="image" src="https://github.com/user-attachments/assets/8fe9ee82-2278-4c29-9575-6dd09b745318" />
+<img width="1897" height="881" alt="image" src="https://github.com/user-attachments/assets/6fad916f-9e6d-40ef-b96c-88bc56b87ba0" />
+<img width="1904" height="891" alt="image" src="https://github.com/user-attachments/assets/c98af199-ac3d-47d3-90af-f152c1f72c05" />
+<img width="1900" height="883" alt="image" src="https://github.com/user-attachments/assets/e7804bbb-79d6-430e-acbe-c4478a16f917" />
+<img width="1905" height="890" alt="image" src="https://github.com/user-attachments/assets/b314a0c9-7355-4233-ae2a-47576abc2ed0" />
+
+# 🎓 St. Xavier's College - Management System
+
+A comprehensive, full-stack College Management System designed to streamline administrative tasks, student management, and faculty coordination. This project features a modern, responsive UI and a robust backend architecture.
+
+## 🚀 Key Features
+
+### 💻 Admin Dashboard
+- **Analytics Overview**: Real-time stats for total students, faculty, and departments.
+- **Student Management**: Full CRUD operations for student records.
+- **Faculty Directory**: Manage faculty profiles and department assignments.
+- **Early Leave System**: 
+    - Intelligent student search by roll number.
+    - Dynamic request forms with parent/guardian verification.
+    - **Smart Printing**: Generates professional leave slips with 12-hour AM/PM formatting and auto-suppression of browser headers/footers.
+- **Department Controls**: Organize courses and HOD assignments.
+
+### 🎨 Modern UI/UX
+- **Premium Aesthetics**: Vibrant blue-themed interface with glassmorphism elements.
+- **Responsive Design**: Seamless experience across desktops, tablets, and mobile devices.
+- **Interactive Elements**: Micro-animations and smooth transitions for enhanced engagement.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technologies |
+|---|---|
+| **Frontend** | React, Vite, Vanilla CSS, FontAwesome |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB (Mongoose) |
+| **Authentication** | Firebase Admin SDK |
+| **Deployment** | Vercel (Frontend), GitHub |
+
+---
+
+## ⚙️ Installation & Setup
+
+### Prerequisites
+- Node.js (v16+)
+- MongoDB (Local or Atlas)
+- Firebase Account
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/thisisrakeshhhh/College_Managment_System.git
+cd College_Managment_System
+```
+
+### 2. Frontend Setup
+```bash
+npm install
+npm run dev
+```
+
+### 3. Backend Setup
+```bash
+cd server
+npm install
+# Create a .env file based on .env_template
+cp .env_template .env
+npm run dev
+```
+
+### 🛡️ Environment Variables
+Configure your `server/.env` with:
+- `PORT`: Your server port (default: 5000)
+- `MONGODB_URI`: Your MongoDB connection string
+- `FIREBASE_SERVICE_ACCOUNT_PATH`: Path to your service account key JSON
+
+---
+
+## 📸 Screenshots
+
+*(Add your screenshots here to wow your visitors!)*
+
+---
+
+## 🤝 Contributing
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## 📄 License
+This project is licensed under the MIT License.
+
+---
+Developed with ❤️ by [Rakesh Kumar](https://github.com/thisisrakeshhhh)
