@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FacultyDashboard.css';
 import './FacultyDashboard_Addons.css';
@@ -7,6 +7,41 @@ const FacultyDashboard = () => {
     const navigate = useNavigate();
     const [activeRoute, setActiveRoute] = useState('dashboard');
     const [sidebarActive, setSidebarActive] = useState(false);
+
+    // Centralized Data State
+    const [allStudents, setAllStudents] = useState([]);
+    const [smsHistory, setSmsHistory] = useState([]);
+
+    const [smsData, setSmsData] = useState({
+        recipientType: 'all', // 'all', 'grade', 'individual'
+        selectedGrade: '',
+        selectedStudents: [],
+        message: '',
+        template: ''
+    });
+    const [isSending, setIsSending] = useState(false);
+    const [smsTab, setSmsTab] = useState('compose');
+
+    const fetchData = useCallback(async () => {
+        try {
+            const studentRes = await fetch('http://localhost:5000/api/students');
+            const studentData = await studentRes.json();
+            setAllStudents(studentData);
+
+            const historyRes = await fetch('http://localhost:5000/api/sms/history');
+            const historyData = await historyRes.json();
+            setSmsHistory(historyData);
+        } catch (err) {
+            console.error('Error fetching data:', err);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+        // Set up auto-refresh every 30 seconds for history
+        const interval = setInterval(fetchData, 30000);
+        return () => clearInterval(interval);
+    }, [fetchData]);
 
     const loadRoute = (route) => {
         setActiveRoute(route);
@@ -120,6 +155,73 @@ const FacultyDashboard = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            );
+        }
+
+        if (activeRoute === 'students') {
+            return (
+                <div className="dynamic-view container animate-fade-in">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                        <h2 className="section-title" style={{ margin: 0 }}>Student Management</h2>
+                        <button className="btn-primary" style={{ padding: '10px 20px', borderRadius: '12px', background: 'var(--primary)', color: 'white', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <i className="fas fa-plus"></i> Add Student
+                        </button>
+                    </div>
+
+                    <div className="table-container" style={{ background: 'white', borderRadius: '20px', padding: '20px', boxShadow: 'var(--shadow-soft)' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                            <thead>
+                                <tr style={{ borderBottom: '2px solid #f1f5f9' }}>
+                                    <th style={{ padding: '16px', textAlign: 'left', color: '#64748b' }}>Name</th>
+                                    <th style={{ padding: '16px', textAlign: 'left', color: '#64748b' }}>ID</th>
+                                    <th style={{ padding: '16px', textAlign: 'left', color: '#64748b' }}>Grade</th>
+                                    <th style={{ padding: '16px', textAlign: 'left', color: '#64748b' }}>Status</th>
+                                    <th style={{ padding: '16px', textAlign: 'center', color: '#64748b' }}>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {allStudents.map((student) => (
+                                    <tr key={student.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                        <td style={{ padding: '16px', fontWeight: '600', color: '#1e293b' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#64748b' }}>
+                                                    {student.name.charAt(0)}
+                                                </div>
+                                                {student.name}
+                                            </div>
+                                        </td>
+                                        <td style={{ padding: '16px', color: '#475569' }}>#{student.id}</td>
+                                        <td style={{ padding: '16px', color: '#475569' }}>{student.grade}</td>
+                                        <td style={{ padding: '16px' }}>
+                                            <span className={`status-badge ${student.status === 'Active' ? 'status-approved' : 'status-pending'}`}>
+                                                {student.status}
+                                            </span>
+                                        </td>
+                                        <td style={{ padding: '16px', textAlign: 'center' }}>
+                                            <button
+                                                title="Notify Parent"
+                                                style={{ background: '#eff6ff', border: 'none', color: '#3b82f6', padding: '8px', borderRadius: '8px', cursor: 'pointer', marginRight: '8px' }}
+                                                onClick={() => {
+                                                    setSmsData({
+                                                        ...smsData,
+                                                        recipientType: 'individual',
+                                                        selectedStudents: [student.parentPhone]
+                                                    });
+                                                    setSmsTab('compose');
+                                                    loadRoute('sms');
+                                                }}
+                                            >
+                                                <i className="fas fa-sms"></i>
+                                            </button>
+                                            <button style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', marginRight: '8px' }}><i className="fas fa-edit"></i></button>
+                                            <button style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}><i className="fas fa-trash-alt"></i></button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             );
@@ -360,6 +462,257 @@ const FacultyDashboard = () => {
             );
         }
 
+        if (activeRoute === 'sms') {
+            const grades = [...new Set(allStudents.map(s => s.grade))];
+            const templates = [
+                { id: 'attendance', name: 'Attendance Alert', text: 'Dear Parent, your child was absent today. Please provide a reason.' },
+                { id: 'fees', name: 'Fee Reminder', text: 'Dear Parent, this is a reminder regarding the pending fees for this quarter.' },
+                { id: 'exam', name: 'Exam Schedule', text: 'Dear Parent, the exam schedule for the upcoming unit test has been posted.' },
+                { id: 'general', name: 'General Notice', text: 'Dear Parent, please check the dashboard for a new important circular.' }
+            ];
+
+            const handleTemplateChange = (e) => {
+                const template = templates.find(t => t.id === e.target.value);
+                setSmsData({ ...smsData, template: e.target.value, message: template ? template.text : '' });
+            };
+
+            const toggleStudentSelection = (phone) => {
+                const newSelection = smsData.selectedStudents.includes(phone)
+                    ? smsData.selectedStudents.filter(p => p !== phone)
+                    : [...smsData.selectedStudents, phone];
+                setSmsData({ ...smsData, selectedStudents: newSelection });
+            };
+
+            const handleSendSms = async () => {
+                let recipients = [];
+                if (smsData.recipientType === 'all') {
+                    recipients = allStudents.map(s => s.parentPhone);
+                } else if (smsData.recipientType === 'grade') {
+                    if (!smsData.selectedGrade) return alert('Please select a grade');
+                    recipients = allStudents.filter(s => s.grade === smsData.selectedGrade).map(s => s.parentPhone);
+                } else {
+                    recipients = smsData.selectedStudents;
+                }
+
+                if (recipients.length === 0) return alert('Please select recipients');
+                if (!smsData.message.trim()) return alert('Please enter a message');
+
+                setIsSending(true);
+                try {
+                    const response = await fetch('http://localhost:5000/api/sms/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            recipients,
+                            message: smsData.message,
+                            source: 'Faculty Dashboard'
+                        })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        alert(`Successfully sent SMS to ${recipients.length} parents!`);
+                        setSmsData({ ...smsData, message: '', selectedStudents: [], template: '' });
+                        fetchData(); // Refresh history
+                    }
+                } catch (error) {
+                    console.error('Error sending SMS:', error);
+                    alert('Failed to send SMS. Make sure the server is running on port 5000.');
+                } finally {
+                    setIsSending(false);
+                }
+            };
+
+            return (
+                <div className="dynamic-view container animate-fade-in">
+                    <h2 className="section-title" style={{ marginBottom: '24px' }}>Parent SMS Notification System</h2>
+
+                    <div className="sms-tabs" style={{ display: 'flex', gap: '8px', marginBottom: '24px', borderBottom: '1px solid #e2e8f0' }}>
+                        <button
+                            className={`sms-tab-btn ${smsTab === 'compose' ? 'active' : ''}`}
+                            onClick={() => setSmsTab('compose')}
+                        >
+                            Compose Message
+                        </button>
+                        <button
+                            className={`sms-tab-btn ${smsTab === 'history' ? 'active' : ''}`}
+                            onClick={() => setSmsTab('history')}
+                        >
+                            Sent History
+                        </button>
+                    </div>
+
+                    {smsTab === 'compose' ? (
+                        <div className="sms-grid">
+                            <div className="sms-card">
+                                <h3 style={{ margin: '0 0 20px 0', fontSize: '18px', color: '#1e293b' }}>
+                                    <i className="fas fa-edit" style={{ color: '#3b82f6', marginRight: '10px' }}></i> Compose
+                                </h3>
+
+                                <div className="form-group">
+                                    <label className="form-label">Select Template</label>
+                                    <select className="form-select" value={smsData.template} onChange={handleTemplateChange}>
+                                        <option value="">Custom Message</option>
+                                        {templates.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="form-label">Message Content</label>
+                                    <textarea
+                                        className="form-textarea"
+                                        style={{ minHeight: '150px', resize: 'vertical' }}
+                                        value={smsData.message}
+                                        onChange={(e) => setSmsData({ ...smsData, message: e.target.value })}
+                                        placeholder="Type your message here..."
+                                    ></textarea>
+                                    <div style={{ textAlign: 'right', fontSize: '12px', color: '#94a3b8', marginTop: '5px' }}>
+                                        {smsData.message.length} characters | {Math.ceil(smsData.message.length / 160)} SMS units
+                                    </div>
+                                </div>
+
+                                <button
+                                    className="btn-primary"
+                                    style={{ width: '100%', padding: '14px', borderRadius: '12px', background: 'var(--primary)', color: 'white', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}
+                                    onClick={handleSendSms}
+                                    disabled={isSending}
+                                >
+                                    {isSending ? <><i className="fas fa-spinner fa-spin"></i> Sending...</> : <><i className="fas fa-paper-plane"></i> Send Notification</>}
+                                </button>
+                            </div>
+
+                            <div className="sms-card">
+                                <h3 style={{ margin: '0 0 20px 0', fontSize: '18px', color: '#1e293b' }}>
+                                    <i className="fas fa-users" style={{ color: '#3b82f6', marginRight: '10px' }}></i> Recipients
+                                </h3>
+
+                                <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', background: '#f1f5f9', padding: '4px', borderRadius: '12px' }}>
+                                    {['all', 'grade', 'individual'].map(type => (
+                                        <button
+                                            key={type}
+                                            className={`btn ${smsData.recipientType === type ? 'active' : ''}`}
+                                            style={{
+                                                flex: 1, padding: '8px', fontSize: '13px', borderRadius: '10px', border: 'none',
+                                                background: smsData.recipientType === type ? '#3b82f6' : 'transparent',
+                                                color: smsData.recipientType === type ? 'white' : '#64748b',
+                                                cursor: 'pointer', fontWeight: '600'
+                                            }}
+                                            onClick={() => setSmsData({ ...smsData, recipientType: type })}
+                                        >
+                                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {smsData.recipientType === 'all' && (
+                                    <div style={{ padding: '20px', textAlign: 'center', background: '#eff6ff', borderRadius: '16px', border: '1px dashed #3b82f6', color: '#1d4ed8' }}>
+                                        <i className="fas fa-users" style={{ fontSize: '24px', marginBottom: '10px', display: 'block' }}></i>
+                                        <p style={{ margin: 0, fontSize: '14px' }}>Targeting all <b>{allStudents.length}</b> parents in the system</p>
+                                    </div>
+                                )}
+
+                                {smsData.recipientType === 'grade' && (
+                                    <div className="form-group">
+                                        <label className="form-label">Choose Grade</label>
+                                        <select
+                                            className="form-select"
+                                            value={smsData.selectedGrade}
+                                            onChange={(e) => setSmsData({ ...smsData, selectedGrade: e.target.value })}
+                                        >
+                                            <option value="">Select Grade</option>
+                                            {grades.map(g => <option key={g} value={g}>{g}</option>)}
+                                        </select>
+                                        {smsData.selectedGrade && (
+                                            <div style={{ marginTop: '16px', padding: '12px', background: '#f8fafc', borderRadius: '12px', color: '#64748b', fontSize: '13px' }}>
+                                                <i className="fas fa-check-circle" style={{ color: '#10b981', marginRight: '8px' }}></i>
+                                                <b>{allStudents.filter(s => s.grade === smsData.selectedGrade).length}</b> students selected in {smsData.selectedGrade}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {smsData.recipientType === 'individual' && (
+                                    <div style={{ maxHeight: '350px', overflowY: 'auto', border: '1px solid #e2e8f0', borderRadius: '16px', background: '#f8fafc' }}>
+                                        {allStudents.map(student => (
+                                            <div
+                                                key={student.id}
+                                                style={{ padding: '12px 16px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', background: smsData.selectedStudents.includes(student.parentPhone) ? '#eff6ff' : 'transparent' }}
+                                                onClick={() => toggleStudentSelection(student.parentPhone)}
+                                            >
+                                                <div style={{
+                                                    width: '20px', height: '20px', borderRadius: '6px', border: '2px solid #3b82f6',
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                    background: smsData.selectedStudents.includes(student.parentPhone) ? '#3b82f6' : 'white',
+                                                    color: 'white', fontSize: '10px'
+                                                }}>
+                                                    {smsData.selectedStudents.includes(student.parentPhone) && <i className="fas fa-check"></i>}
+                                                </div>
+                                                <div style={{ flex: 1 }}>
+                                                    <div style={{ fontWeight: '600', fontSize: '14px', color: '#1e293b' }}>{student.name}</div>
+                                                    <div style={{ fontSize: '12px', color: '#94a3b8' }}>{student.grade} • {student.parentPhone}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                <div style={{ marginTop: '20px', padding: '16px', background: '#f1f5f9', borderRadius: '12px', textAlign: 'center' }}>
+                                    <span style={{ fontSize: '14px', color: '#475569', fontWeight: '500' }}>
+                                        Total Recipients: <span style={{ color: '#3b82f6', fontWeight: 'bold', fontSize: '18px' }}>
+                                            {smsData.recipientType === 'all' ? allStudents.length :
+                                                smsData.recipientType === 'grade' ? allStudents.filter(s => s.grade === smsData.selectedGrade).length :
+                                                    smsData.selectedStudents.length}
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="sms-history-container">
+                            <div className="sms-card">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                                    <h3 style={{ margin: 0, fontSize: '18px', color: '#1e293b' }}>
+                                        <i className="fas fa-history" style={{ color: '#3b82f6', marginRight: '10px' }}></i> Recent Sent History
+                                    </h3>
+                                    <button
+                                        className="btn btn-secondary"
+                                        style={{ fontSize: '12px', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer' }}
+                                        onClick={fetchData}
+                                    >
+                                        <i className="fas fa-sync-alt" style={{ marginRight: '6px' }}></i> Refresh
+                                    </button>
+                                </div>
+                                <div className="history-list">
+                                    {smsHistory.length === 0 ? (
+                                        <div style={{ textAlign: 'center', padding: '60px 40px', color: '#94a3b8' }}>
+                                            <i className="fas fa-comment-slash" style={{ fontSize: '48px', marginBottom: '16px', opacity: 0.2 }}></i>
+                                            <p style={{ margin: 0 }}>No communications logged in history yet.</p>
+                                        </div>
+                                    ) : (
+                                        [...smsHistory].reverse().map((sms, i) => (
+                                            <div key={i} className="history-item">
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                                    <span style={{ fontWeight: '700', color: '#3b82f6', fontSize: '14px' }}>
+                                                        <i className="fas fa-paper-plane" style={{ marginRight: '8px', fontSize: '12px' }}></i>
+                                                        Sent to {sms.recipients.length} Parents
+                                                    </span>
+                                                    <span style={{ fontSize: '11px', color: '#94a3b8', background: '#f1f5f9', padding: '2px 8px', borderRadius: '10px', fontWeight: '600' }}>
+                                                        {new Date(sms.timestamp).toLocaleString()} • {sms.source}
+                                                    </span>
+                                                </div>
+                                                <p style={{ margin: 0, fontSize: '14px', color: '#334155', fontStyle: 'italic', background: 'white', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                                                    "{sms.message}"
+                                                </p>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
         if (activeRoute === 'settings') {
             return (
                 <div className="dynamic-view container animate-fade-in">
@@ -441,6 +794,10 @@ const FacultyDashboard = () => {
                         <i className="fas fa-th-large"></i>
                         <span>Dashboard</span>
                     </div>
+                    <div className={`nav-item ${activeRoute === 'students' ? 'active' : ''}`} onClick={() => loadRoute('students')}>
+                        <i className="fas fa-user-graduate"></i>
+                        <span>Students</span>
+                    </div>
                     <div className={`nav-item ${activeRoute === 'teachers' ? 'active' : ''}`} onClick={() => loadRoute('teachers')}>
                         <i className="fas fa-chalkboard-teacher"></i>
                         <span>Teachers</span>
@@ -460,6 +817,10 @@ const FacultyDashboard = () => {
                     <div className={`nav-item ${activeRoute === 'notifications' ? 'active' : ''}`} onClick={() => loadRoute('notifications')}>
                         <i className="fas fa-bullhorn"></i>
                         <span>Notifications</span>
+                    </div>
+                    <div className={`nav-item ${activeRoute === 'sms' ? 'active' : ''}`} onClick={() => loadRoute('sms')}>
+                        <i className="fas fa-sms"></i>
+                        <span>Parent SMS</span>
                     </div>
                     <div className={`nav-item ${activeRoute === 'settings' ? 'active' : ''}`} onClick={() => loadRoute('settings')}>
                         <i className="fas fa-cogs"></i>

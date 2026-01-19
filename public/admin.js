@@ -105,6 +105,52 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNotificationBadge();
     // --- End Notification Logic Fix ---
 
+    // --- Centralized Data Fetching ---
+    let allStudents = [];
+    let allFaculty = [];
+    let allDepartments = [];
+    let allLeaves = [];
+    let smsHistory = [];
+
+    async function fetchData() {
+        try {
+            const [studentRes, facultyRes, deptRes, leaveRes, smsRes] = await Promise.all([
+                fetch('http://localhost:5000/api/students'),
+                fetch('http://localhost:5000/api/faculty'),
+                fetch('http://localhost:5000/api/departments'),
+                fetch('http://localhost:5000/api/leaves'),
+                fetch('http://localhost:5000/api/sms/history')
+            ]);
+
+            allStudents = await studentRes.json();
+            allFaculty = await facultyRes.json();
+            allDepartments = await deptRes.json();
+            allLeaves = await leaveRes.json();
+            smsHistory = await smsRes.json();
+
+            console.log('Admin data synchronized:', {
+                students: allStudents.length,
+                faculty: allFaculty.length,
+                departments: allDepartments.length,
+                leaves: allLeaves.length
+            });
+
+            // Refresh current view if it's dynamic
+            const activeNav = document.querySelector('.nav-item.active');
+            if (activeNav) {
+                const page = activeNav.getAttribute('data-page');
+                if (['dashboard', 'students', 'parent-sms', 'faculty', 'departments'].includes(page)) {
+                    renderPage(page);
+                }
+            }
+        } catch (err) {
+            console.error('Data Fetch Sync Error:', err);
+        }
+    }
+
+    // Initial load
+    fetchData();
+
     // Initial Render
     renderPage('dashboard');
 
@@ -125,15 +171,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorMsg = document.getElementById('errorMsg');
         const leaveSection = document.getElementById('leaveSection');
 
-        // Mock search - replace with actual API call
-        if (rollInput === '1011') {
-            document.getElementById('studentName').textContent = 'John Doe';
-            document.getElementById('studentClass').textContent = 'Grade XI';
-            document.getElementById('studentRoll').textContent = '1011';
+        if (!rollInput) return;
+
+        // Search in fetched students
+        const student = allStudents.find(s => s.id === rollInput || s.id.includes(rollInput));
+
+        if (student) {
+            document.getElementById('studentName').textContent = student.name;
+            document.getElementById('studentClass').textContent = `${student.grade} - ${student.course}`;
+            document.getElementById('studentRoll').textContent = student.id;
+            // Using placeholder logic if photo not in data
             document.getElementById('studentPhoto').src = '/assets/images/images.jpeg';
-            document.getElementById('parentName').textContent = 'Jane Doe';
-            document.getElementById('parentPhone').textContent = '1234567890';
-            document.getElementById('parentAddress').textContent = '123 Main St, City';
+            document.getElementById('parentName').textContent = 'Guardian of ' + student.name;
+            document.getElementById('parentPhone').textContent = student.parentPhone;
+            document.getElementById('parentAddress').textContent = 'Registered Address on file';
             document.getElementById('parentPhoto').src = '/assets/images/image3.jpg';
 
             errorMsg.style.display = 'none';
@@ -222,28 +273,28 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="stat-card">
                                 <div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div>
                                 <div class="stat-details">
-                                    <h3>3,450</h3>
+                                    <h3 id="statTotalStudents">${allStudents.length || '...'}</h3>
                                     <p>Total Students</p>
                                 </div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-icon green"><i class="fas fa-chalkboard-teacher"></i></div>
                                 <div class="stat-details">
-                                    <h3>128</h3>
+                                    <h3>${allFaculty.length || '...'}</h3>
                                     <p>Total Faculty</p>
                                 </div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-icon orange"><i class="fas fa-building"></i></div>
                                 <div class="stat-details">
-                                    <h3>12</h3>
+                                    <h3>${allDepartments.length || '...'}</h3>
                                     <p>Departments</p>
                                 </div>
                             </div>
                              <div class="stat-card">
                                 <div class="stat-icon purple"><i class="fas fa-door-open"></i></div>
                                 <div class="stat-details">
-                                    <h3>45</h3>
+                                    <h3>${allLeaves.length || '...'}</h3>
                                     <p>Leave Requests</p>
                                 </div>
                             </div>
@@ -298,45 +349,28 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Course</th>
-                                        <th>Year</th>
+                                        <th>Grade</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#STU001</td>
-                                        <td>Amit Sharma</td>
-                                        <td>B.Tech CS</td>
-                                        <td>2nd</td>
-                                        <td><span class="status-badge status-approved">Active</span></td>
-                                        <td>
-                                            <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn-delete"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#STU002</td>
-                                        <td>Priya Patel</td>
-                                        <td>BBA</td>
-                                        <td>1st</td>
-                                        <td><span class="status-badge status-pending">Pending</span></td>
-                                        <td>
-                                            <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn-delete"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                     <tr>
-                                        <td>#STU003</td>
-                                        <td>Rohan Singh</td>
-                                        <td>B.Sc Physics</td>
-                                        <td>3rd</td>
-                                        <td><span class="status-badge status-approved">Active</span></td>
-                                        <td>
-                                            <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn-delete"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
+                                    ${allStudents.length === 0 ? `<tr><td colspan="6" style="text-align: center; padding: 20px;">Loading students...</td></tr>` : allStudents.map(s => `
+                                        <tr>
+                                            <td>#${s.id}</td>
+                                            <td>${s.name}</td>
+                                            <td>${s.course}</td>
+                                            <td>${s.grade}</td>
+                                            <td><span class="status-badge ${s.status === 'Active' ? 'status-approved' : 'status-pending'}">${s.status}</span></td>
+                                            <td>
+                                                <button class="btn-sms" onclick="notifyParent('${s.id}')" title="Notify Parent" style="background: #eef2ff; color: #4318FF; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer; margin-right: 5px;">
+                                                    <i class="fas fa-sms"></i>
+                                                </button>
+                                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
                                 </tbody>
                             </table>
                         </div>
@@ -369,28 +403,19 @@ document.addEventListener('DOMContentLoaded', () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#FAC001</td>
-                                        <td>Dr. Sarah Wilson</td>
-                                        <td><span class="dept-badge">Computer Science</span></td>
-                                        <td>Professor</td>
-                                        <td>sarah.w@college.edu</td>
-                                        <td>
-                                            <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn-delete"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#FAC002</td>
-                                        <td>Prof. Rajesh Kumar</td>
-                                        <td><span class="dept-badge">Mathematics</span></td>
-                                        <td>Assistant Prof.</td>
-                                        <td>rakesh.k@college.edu</td>
-                                        <td>
-                                            <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn-delete"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
+                                    ${allFaculty.length === 0 ? `<tr><td colspan="6" style="text-align: center; padding: 20px;">Fetching faculty data...</td></tr>` : allFaculty.map(f => `
+                                        <tr>
+                                            <td>#${f.id}</td>
+                                            <td>${f.name}</td>
+                                            <td><span class="dept-badge">${f.subject}</span></td>
+                                            <td>${f.experience} Experience</td>
+                                            <td>${f.contact}</td>
+                                            <td>
+                                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
                                 </tbody>
                             </table>
                         </div>
@@ -411,27 +436,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Department</button>
                         </div>
                         <div class="departments-grid">
-                            <div class="dept-card">
-                                <h4>Computer Science</h4>
-                                <p><strong>HOD:</strong> Dr. A. P. J. Abdul</p>
-                                <p><strong>Faculty:</strong> 24 Members</p>
-                                <p><strong>Students:</strong> 450+</p>
-                                <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;">View Details</button>
-                            </div>
-                            <div class="dept-card">
-                                <h4>Mechanical Engineering</h4>
-                                <p><strong>HOD:</strong> Prof. S. K. Bose</p>
-                                <p><strong>Faculty:</strong> 18 Members</p>
-                                <p><strong>Students:</strong> 320+</p>
-                                <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;">View Details</button>
-                            </div>
-                            <div class="dept-card">
-                                <h4>Business Administration</h4>
-                                <p><strong>HOD:</strong> Dr. M. Gupta</p>
-                                <p><strong>Faculty:</strong> 12 Members</p>
-                                <p><strong>Students:</strong> 280+</p>
-                                <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;">View Details</button>
-                            </div>
+                            ${allDepartments.length === 0 ? `<p style="text-align: center; width: 100%;">Loading departments...</p>` : allDepartments.map(d => `
+                                <div class="dept-card">
+                                    <h4>${d.name}</h4>
+                                    <p><strong>HOD:</strong> ${d.head}</p>
+                                    <p><strong>Students:</strong> ${d.students}+</p>
+                                    <p><strong>Status:</strong> ${d.status}</p>
+                                    <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;">View Details</button>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 `;
@@ -781,6 +794,274 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 break;
 
+            case 'parent-sms':
+                const grades = [...new Set(allStudents.map(s => s.grade))];
+                const smsTemplates = [
+                    { id: 'attendance', name: 'Attendance Alert', text: 'Dear Parent, your child was absent today. Please provide a reason.' },
+                    { id: 'fees', name: 'Fee Reminder', text: 'Dear Parent, this is a reminder regarding the pending fees for this quarter.' },
+                    { id: 'exam', name: 'Exam Schedule', text: 'Dear Parent, the exam schedule for the upcoming unit test has been posted.' },
+                    { id: 'general', name: 'General Notice', text: 'Dear Parent, please check the dashboard for a new important circular.' }
+                ];
+
+                appView.innerHTML = `
+                    <div class="parent-sms-view animate-fade-in">
+                        <div class="section-header" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>Parent Communication System</h3>
+                            </div>
+                        </div>
+
+                        <div class="sms-tabs" style="display: flex; gap: 15px; margin-bottom: 24px; border-bottom: 2px solid #f4f7fe;">
+                            <button id="composeTab" class="sms-tab-btn active" style="padding: 10px 20px; border: none; background: none; font-weight: 600; cursor: pointer; border-bottom: 2px solid #4318FF; color: #4318FF;">Compose Message</button>
+                            <button id="historyTab" class="sms-tab-btn" style="padding: 10px 20px; border: none; background: none; font-weight: 600; cursor: pointer; color: #a3aed0;">Sent History</button>
+                        </div>
+
+                        <div id="composeView">
+                            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px;">
+                                <div class="card" style="padding: 24px; background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+                                    <h4 style="margin-top: 0; margin-bottom: 20px; color: #1B2559;"><i class="fas fa-edit" style="color: #4318FF; margin-right: 10px;"></i> Compose Message</h4>
+                                    
+                                    <div class="form-group" style="margin-bottom: 20px;">
+                                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2B3674;">Message Template</label>
+                                        <select id="smsTemplate" class="form-input" style="width: 100%; padding: 12px; border: 1px solid #E0E5F2; border-radius: 12px;">
+                                            <option value="">Custom Message</option>
+                                            ${smsTemplates.map(t => `<option value="${t.id}">${t.name}</option>`).join('')}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" style="margin-bottom: 20px;">
+                                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2B3674;">Message Content</label>
+                                        <textarea id="smsContent" class="form-input" style="width: 100%; padding: 12px; border: 1px solid #E0E5F2; border-radius: 12px; min-height: 150px; resize: vertical;" placeholder="Type your message here..."></textarea>
+                                        <div style="text-align: right; font-size: 12px; color: #A3AED0; margin-top: 8px;">
+                                            <span id="charCount">0</span> characters | <span id="unitCount">0</span> SMS units
+                                        </div>
+                                    </div>
+
+                                    <button id="sendSmsBtn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: 700; border-radius: 12px; background: #4318FF; color: white;">
+                                        <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Send Notification
+                                    </button>
+                                </div>
+
+                                <div class="card" style="padding: 24px; background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+                                    <h4 style="margin-top: 0; margin-bottom: 20px; color: #1B2559;"><i class="fas fa-users" style="color: #4318FF; margin-right: 10px;"></i> Recipients</h4>
+                                    
+                                    <div class="recipient-type-selector" style="display: flex; gap: 8px; margin-bottom: 20px; background: #F4F7FE; padding: 5px; border-radius: 15px;">
+                                        <button class="r-type-btn active" data-type="all" style="flex: 1; padding: 10px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; background: #4318FF; color: white;">All</button>
+                                        <button class="r-type-btn" data-type="grade" style="flex: 1; padding: 10px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; background: transparent; color: #A3AED0;">Grade</button>
+                                        <button class="r-type-btn" data-type="individual" style="flex: 1; padding: 10px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; background: transparent; color: #A3AED0;">Individual</button>
+                                    </div>
+
+                                    <div id="grade-selector" style="display: none; margin-bottom: 15px;">
+                                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2B3674;">Select Grade</label>
+                                        <select id="smsGrade" style="width: 100%; padding: 12px; border: 1px solid #E0E5F2; border-radius: 12px;">
+                                            <option value="">Choose Grade...</option>
+                                            ${grades.map(g => `<option value="${g}">${g}</option>`).join('')}
+                                        </select>
+                                    </div>
+
+                                    <div id="individual-selector" style="display: none; max-height: 350px; overflow-y: auto; border: 1px solid #E0E5F2; border-radius: 12px; background: #F4F7FE;">
+                                        ${allStudents.map(s => `
+                                            <div class="student-item" style="padding: 12px 16px; border-bottom: 1px solid #E0E5F2; display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                                                <input type="checkbox" class="student-checkbox" value="${s.parentPhone}" style="width: 18px; height: 18px; border-radius: 4px; border: 2px solid #4318FF;">
+                                                <div style="flex: 1;">
+                                                    <p style="margin: 0; font-weight: 700; color: #2B3674; font-size: 14px;">${s.name}</p>
+                                                    <p style="margin: 0; font-size: 12px; color: #A3AED0;">${s.grade} • ${s.parentPhone}</p>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+
+                                    <div id="selection-summary" style="margin-top: 20px; padding: 15px; background: #F4F7FE; border-radius: 15px; text-align: center;">
+                                        <span style="font-size: 14px; color: #2B3674; font-weight: 500;">Targeting <strong id="recipientCount" style="color: #4318FF; font-size: 18px;">${allStudents.length}</strong> parents</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="historyView" style="display: none;">
+                            <div class="card" style="padding: 24px; background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                                    <h4 style="margin: 0; color: #1B2559;"><i class="fas fa-history" style="color: #4318FF; margin-right: 10px;"></i> Communication Logs</h4>
+                                    <button onclick="fetchData()" class="btn btn-secondary" style="font-size: 12px; padding: 8px 15px; border-radius: 10px;">
+                                        <i class="fas fa-sync-alt" style="margin-right: 5px;"></i> Refresh
+                                    </button>
+                                </div>
+                                <div id="smsHistoryList">
+                                    ${smsHistory.length === 0 ? `
+                                        <div style="text-align: center; padding: 60px 20px;">
+                                            <i class="fas fa-comment-slash" style="font-size: 40px; color: #E0E5F2; margin-bottom: 15px;"></i>
+                                            <p style="color: #A3AED0;">No communication history found.</p>
+                                        </div>
+                                    ` : [...smsHistory].reverse().map(sms => `
+                                        <div class="history-item" style="padding: 16px; border: 1px solid #F4F7FE; border-radius: 15px; margin-bottom: 12px; background: #F8F9FF;">
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                                <span style="font-weight: 700; color: #4318FF; font-size: 14px;">
+                                                    <i class="fas fa-paper-plane" style="margin-right: 8px; font-size: 12px;"></i>
+                                                    Sent to ${sms.recipients.length} Parents
+                                                </span>
+                                                <span style="font-size: 11px; color: #A3AED0; background: white; padding: 2px 8px; border-radius: 8px;">
+                                                    ${new Date(sms.timestamp).toLocaleString()} • ${sms.source}
+                                                </span>
+                                            </div>
+                                            <p style="margin: 0; font-size: 14px; color: #2B3674; font-style: italic; background: white; padding: 12px; border-radius: 10px; border: 1px solid #F4F7FE;">
+                                                "${sms.message}"
+                                            </p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Logic for Admin Parent SMS
+                const cTab = document.getElementById('composeTab');
+                const hTab = document.getElementById('historyTab');
+                const cView = document.getElementById('composeView');
+                const hView = document.getElementById('historyView');
+
+                const templateSelect = document.getElementById('smsTemplate');
+                const smsContent = document.getElementById('smsContent');
+                const charCount = document.getElementById('charCount');
+                const unitCount = document.getElementById('unitCount');
+                const sendBtn = document.getElementById('sendSmsBtn');
+                const typeBtns = document.querySelectorAll('.r-type-btn');
+                const gradeSelector = document.getElementById('grade-selector');
+                const indSelector = document.getElementById('individual-selector');
+                const rCount = document.getElementById('recipientCount');
+                const gradeSelect = document.getElementById('smsGrade');
+
+                let recipientType = 'all';
+
+                // Tab Switching
+                cTab.addEventListener('click', () => {
+                    cTab.style.color = '#4318FF'; cTab.style.borderBottom = '2px solid #4318FF';
+                    hTab.style.color = '#A3AED0'; hTab.style.borderBottom = 'none';
+                    cView.style.display = 'block'; hView.style.display = 'none';
+                });
+
+                hTab.addEventListener('click', () => {
+                    hTab.style.color = '#4318FF'; hTab.style.borderBottom = '2px solid #4318FF';
+                    cTab.style.color = '#A3AED0'; cTab.style.borderBottom = 'none';
+                    hView.style.display = 'block'; cView.style.display = 'none';
+                });
+
+                // Template Logic
+                templateSelect.addEventListener('change', () => {
+                    const selected = smsTemplates.find(t => t.id === templateSelect.value);
+                    smsContent.value = selected ? selected.text : '';
+                    updateCounters();
+                });
+
+                function updateCounters() {
+                    const len = smsContent.value.length;
+                    charCount.textContent = len;
+                    unitCount.textContent = Math.ceil(len / 160);
+                }
+
+                smsContent.addEventListener('input', updateCounters);
+
+                // Recipient Logic
+                typeBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        typeBtns.forEach(b => {
+                            b.classList.remove('active');
+                            b.style.background = 'transparent';
+                            b.style.color = '#A3AED0';
+                        });
+                        btn.classList.add('active');
+                        btn.style.background = '#4318FF';
+                        btn.style.color = 'white';
+                        recipientType = btn.getAttribute('data-type');
+
+                        gradeSelector.style.display = recipientType === 'grade' ? 'block' : 'none';
+                        indSelector.style.display = recipientType === 'individual' ? 'block' : 'none';
+                        updateRecipientCount();
+                    });
+                });
+
+                function updateRecipientCount() {
+                    if (recipientType === 'all') {
+                        rCount.textContent = allStudents.length;
+                    } else if (recipientType === 'grade') {
+                        const grade = gradeSelect.value;
+                        const count = allStudents.filter(s => s.grade === grade).length;
+                        rCount.textContent = count;
+                    } else {
+                        const count = document.querySelectorAll('.student-checkbox:checked').length;
+                        rCount.textContent = count;
+                    }
+                }
+
+                gradeSelect.addEventListener('change', updateRecipientCount);
+                document.querySelectorAll('.student-checkbox').forEach(cb => {
+                    cb.addEventListener('change', updateRecipientCount);
+                });
+
+                // Pre-select student if pending
+                if (window.pendingSmsId) {
+                    const student = allStudents.find(s => s.id === window.pendingSmsId);
+                    if (student) {
+                        typeBtns[2].click(); // Select individual
+                        const cb = document.querySelector(`.student-checkbox[value="${student.parentPhone}"]`);
+                        if (cb) {
+                            cb.checked = true;
+                            updateRecipientCount();
+                        }
+                    }
+                    window.pendingSmsId = null;
+                }
+
+                // Send Logic
+                sendBtn.addEventListener('click', async () => {
+                    let recipients = [];
+                    if (recipientType === 'all') {
+                        recipients = allStudents.map(s => s.parentPhone);
+                    } else if (recipientType === 'grade') {
+                        const grade = gradeSelect.value;
+                        if (!grade) return alert('Please select a grade');
+                        recipients = allStudents.filter(s => s.grade === grade).map(s => s.parentPhone);
+                    } else {
+                        const checked = document.querySelectorAll('.student-checkbox:checked');
+                        recipients = Array.from(checked).map(cb => cb.value);
+                    }
+
+                    if (recipients.length === 0) return alert('Please select recipients');
+                    if (!smsContent.value.trim()) return alert('Please enter message content');
+
+                    sendBtn.disabled = true;
+                    sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+                    try {
+                        const response = await fetch('http://localhost:5000/api/sms/send', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                recipients,
+                                message: smsContent.value,
+                                source: 'Admin Dashboard'
+                            })
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            alert(`Success: ${data.message}`);
+                            smsContent.value = '';
+                            templateSelect.value = '';
+                            updateCounters();
+                            fetchData(); // Refresh history data
+                        }
+                    } catch (err) {
+                        alert('Error connecting to server');
+                    } finally {
+                        sendBtn.disabled = false;
+                        sendBtn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Send Notification';
+                    }
+                });
+                break;
+
             case 'settings':
                 appView.innerHTML = `
                      <div class="settings-view">
@@ -832,4 +1113,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         // --- End Common Back Button Logic ---
     }
+
+    window.notifyParent = function (studentId) {
+        window.pendingSmsId = studentId;
+        const smsNavItem = document.querySelector('.nav-item[data-page="parent-sms"]');
+        if (smsNavItem) {
+            smsNavItem.click();
+        } else {
+            renderPage('parent-sms');
+            pageTitle.textContent = 'Parent SMS';
+        }
+    };
 });
