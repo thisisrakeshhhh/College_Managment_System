@@ -160,14 +160,6 @@ const FacultyDashboard = () => {
                     </div>
 
                     <div className="header-right">
-                        <button
-                            className="btn-secondary"
-                            style={{ padding: '8px 12px', fontSize: '12px', marginRight: '15px', color: 'var(--primary)', borderColor: 'var(--primary)' }}
-                            onClick={() => document.body.classList.add('reveal-all')}
-                            title="Click if content is invisible"
-                        >
-                            <i className="fas fa-eye"></i> Force Reveal
-                        </button>
                         <div className="user-profile">
                             <div className="avatar">PS</div>
                             <span className="user-name">Prof. Smith</span>
