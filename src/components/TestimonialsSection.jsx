@@ -26,7 +26,7 @@ const testimonialsData = [
 ];
 
 const TestimonialsSection = () => (
-    <section className="testimonials-section">
+    <section className="testimonials-section reveal">
         <div className="container">
             <div className="section-header">
                 <h2>What Our Students Say</h2>
@@ -34,13 +34,13 @@ const TestimonialsSection = () => (
             </div>
 
             <div className="testimonials-grid">
-                {testimonialsData.map(testimonial => (
-                    <div className="testimonial-card" key={testimonial.id}>
+                {testimonialsData.map((testimonial, index) => (
+                    <div className="testimonial-card reveal hover-lift" key={testimonial.id} style={{ transitionDelay: `${index * 0.1}s` }}>
                         <div className="testimonial-content">
                             <p>"{testimonial.content}"</p>
                         </div>
                         <div className="testimonial-author">
-                            <img src={testimonial.avatar} alt={testimonial.author} className="author-avatar" />
+                            <img src={testimonial.avatar} alt={testimonial.author} className="author-avatar hover-scale" />
                             <div className="author-info">
                                 <strong>{testimonial.author}</strong>
                                 <span>{testimonial.role}</span>

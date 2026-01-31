@@ -29,7 +29,7 @@ const AboutSection = () => (
                     <h3>Who We Are</h3>
                     <p>St. Xavier's Institute of Technology is a premier engineering college located in the heart of Mumbai, Maharashtra. Founded in 1987, we have been dedicated to nurturing young minds and shaping future leaders in technology and innovation.</p>
                     <p>With over 35 years of academic excellence, we have produced thousands of successful engineers who are now leading innovations in various industries across India and globally.</p>
-                    
+
                     <div className="about-highlights">
                         {highlightsData.map((highlight, index) => (
                             <div className="highlight-item" key={index}>
@@ -42,12 +42,12 @@ const AboutSection = () => (
                         ))}
                     </div>
                 </div>
-                
+
                 {/* Right Cards Area */}
                 <div className="about-cards">
                     {cardData.map(card => (
-                        <div 
-                            className="glass-card reveal reveal-right" 
+                        <div
+                            className="glass-card reveal reveal-right hover-lift"
                             style={{ transitionDelay: `${card.delay}s` }}
                             key={card.title}
                         >

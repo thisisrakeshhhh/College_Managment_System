@@ -21,11 +21,10 @@ const FacilitiesSection = () => (
             </div>
 
             <div className="facilities-grid">
-                {facilitiesData.map(facility => (
-                    <div className="facility-card" key={facility.id}>
+                {facilitiesData.map((facility, index) => (
+                    <div className="facility-card reveal hover-lift" key={facility.id} style={{ transitionDelay: `${index * 0.1}s` }}>
                         <div className="facility-img">
-                            {/* React handles 'loading' naturally, but keep attribute for standard HTML */}
-                            <img src={facility.img} alt={facility.title} loading="lazy" />
+                            <img src={facility.img} alt={facility.title} loading="lazy" className="hover-scale" />
                         </div>
                         <div className="facility-content">
                             <h3>{facility.title}</h3>

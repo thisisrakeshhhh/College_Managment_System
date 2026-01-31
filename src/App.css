@@ -1,24 +1,24 @@
 :root {
-  /* Keeping the second, more complete set of variables */
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --secondary: #8b5cf6;
+  --primary: #4f46e5;
+  --primary-dark: #3730a3;
+  --primary-light: #818cf8;
+  --secondary: #7c3aed;
   --success: #10b981;
   --warning: #f59e0b;
   --danger: #ef4444;
   --info: #3b82f6;
-  --dark: #1e293b;
+  --dark: #0f172a;
   --light: #f8fafc;
   --border: #e2e8f0;
   --sidebar-width: 280px;
   --header-height: 70px;
   --bg: var(--light);
-  /* Aligning with the light background */
   --muted: #64748b;
-  --accent: #0f172a;
-  --text: #1e293b;
-  --radius: 12px;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --accent: #0ea5e9;
+  --text: #334155;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
 * {
@@ -63,26 +63,25 @@ button {
   /* Updated gradient to use new variables */
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .btn-primary {
-  /* Updated gradient to use new variables */
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
-  padding: 12px 28px;
-  border-radius: 8px;
+  padding: 14px 32px;
+  border-radius: var(--radius);
   font-weight: 600;
   display: inline-block;
-  /* Updated box-shadow to use a better generic primary color */
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  /* Updated box-shadow to use a better generic primary color */
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3);
+  filter: brightness(1.1);
 }
 
 .btn-secondary {
@@ -110,7 +109,7 @@ button {
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: 0.8s ease;
+  transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.active {
@@ -373,6 +372,7 @@ button {
   margin-bottom: 10px;
   background: linear-gradient(135deg, #fff, #b3b8ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -859,6 +859,7 @@ button {
   margin-bottom: 10px;
   background: linear-gradient(135deg, #fff, #b3b8ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -1618,6 +1619,7 @@ button {
   font-weight: 700;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 

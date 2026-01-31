@@ -44,21 +44,21 @@ const CoursesSection = ({ onFeeClick }) => (
             </div>
 
             <div className="courses-grid">
-                {coursesData.map(course => (
-                    <div className="course-card" key={course.id}>
+                {coursesData.map((course, index) => (
+                    <div className="course-card reveal hover-lift" key={course.id} style={{ transitionDelay: `${index * 0.1}s` }}>
                         <div className="course-icon"><i className={course.icon}></i></div>
                         <h3>{course.title}</h3>
                         <p>{course.details}</p>
                         <ul>
-                            {course.highlights.map((highlight, index) => (
-                                <li key={index}>{highlight}</li>
+                            {course.highlights.map((highlight, hIndex) => (
+                                <li key={hIndex}>{highlight}</li>
                             ))}
                         </ul>
                         <div style={{ marginTop: 'auto' }}>
                             <button
                                 onClick={() => onFeeClick(course)}
-                                className="course-fee"
-                                style={{ width: '100%', border: 'none', textAlign: 'center', transition: 'transform 0.2s' }}
+                                className="course-fee hover-scale"
+                                style={{ width: '100%', border: 'none', textAlign: 'center' }}
                             >
                                 {course.fee}
                             </button>

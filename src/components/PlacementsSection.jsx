@@ -10,22 +10,22 @@ const placementStats = [
 ];
 
 const PlacementsSection = () => (
-    <section className="placements-section">
+    <section className="placements-section reveal">
         <div className="container">
             <div className="section-header">
                 <h2>Our Recruiters</h2>
                 <p>Top companies that recruit from our campus</p>
             </div>
-            
+
             <div className="recruiters-list">
                 {recruiters.map((company, index) => (
-                    <div className="recruiter-logo" key={index}>{company}</div>
+                    <div className="recruiter-logo hover-scale" key={index}>{company}</div>
                 ))}
             </div>
-            
+
             <div className="placement-stats">
                 {placementStats.map((stat, index) => (
-                    <div className="placement-stat" key={index}>
+                    <div className="placement-stat reveal hover-lift" key={index} style={{ transitionDelay: `${index * 0.1}s` }}>
                         <strong>{stat.value}</strong>
                         <span>{stat.label}</span>
                     </div>
