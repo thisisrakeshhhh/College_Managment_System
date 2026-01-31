@@ -16,9 +16,9 @@ const AttendanceManagement = () => {
     ];
 
     return (
-        <div className="dashboard-content reveal">
+        <div className="dashboard-content">
             <div className="content-header">
-                <h2>Attendance Management</h2>
+                <h2 className="reveal">Attendance Management</h2>
                 <p>Track daily attendance and review history.</p>
             </div>
 

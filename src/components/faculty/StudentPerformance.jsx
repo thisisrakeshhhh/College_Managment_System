@@ -9,8 +9,8 @@ const StudentPerformance = () => {
     ];
 
     return (
-        <div className="dashboard-content reveal">
-            <div className="content-header">
+        <div className="dashboard-content">
+            <div className="content-header reveal">
                 <h2>Student Performance Analytics</h2>
                 <p>Analyze academic results and identify students needing support.</p>
             </div>

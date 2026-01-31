@@ -32,14 +32,24 @@ const FacultyDashboard = () => {
 
         // Function to re-scan for .reveal elements
         const scanAndObserve = () => {
-            document.querySelectorAll('.reveal:not(.active)').forEach(el => observer.observe(el));
+            const elements = document.querySelectorAll('.reveal:not(.active)');
+            elements.forEach(el => {
+                observer.observe(el);
+                // Safety Fallback: Force visibility after a delay if the observer misses it
+                setTimeout(() => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        el.classList.add('active');
+                    }
+                }, 1000);
+            });
         };
 
         // Initial scan
         scanAndObserve();
 
-        // Re-scan periodically to catch elements added after loading states
-        const scanInterval = setInterval(scanAndObserve, 1000);
+        // Re-scan periodically
+        const scanInterval = setInterval(scanAndObserve, 2000);
 
         const timer = setInterval(() => setCurrentTime(new Date()), 60000);
         return () => {
@@ -150,6 +160,14 @@ const FacultyDashboard = () => {
                     </div>
 
                     <div className="header-right">
+                        <button
+                            className="btn-secondary"
+                            style={{ padding: '8px 12px', fontSize: '12px', marginRight: '15px', color: 'var(--primary)', borderColor: 'var(--primary)' }}
+                            onClick={() => document.body.classList.add('reveal-all')}
+                            title="Click if content is invisible"
+                        >
+                            <i className="fas fa-eye"></i> Force Reveal
+                        </button>
                         <div className="user-profile">
                             <div className="avatar">PS</div>
                             <span className="user-name">Prof. Smith</span>

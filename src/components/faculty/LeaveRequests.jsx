@@ -7,8 +7,8 @@ const LeaveRequests = () => {
     ];
 
     return (
-        <div className="dashboard-content reveal">
-            <div className="content-header">
+        <div className="dashboard-content">
+            <div className="content-header reveal">
                 <h2>Leave Approval Panel</h2>
                 <p>Review and decide on student leave requests.</p>
             </div>

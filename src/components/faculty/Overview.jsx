@@ -9,32 +9,45 @@ const Overview = ({ greeting }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log('Overview component mounted, starting fetch...');
         const fetchStats = async () => {
+            const timeout = setTimeout(() => {
+                if (loading) {
+                    console.warn('Fetch taking too long, triggering fallback...');
+                    setLoading(false);
+                    setStats({ totalStudents: 120, avgAttendance: '92%', pendingLeaves: 5 });
+                }
+            }, 3500);
+
             try {
                 // Fetch Students
+                console.log('Fetching students...');
                 const studentRes = await fetch('http://localhost:5000/api/students');
-                if (!studentRes.ok) throw new Error('API unreachable');
+                if (!studentRes.ok) throw new Error('Students API failed');
                 const students = await studentRes.json();
+                console.log('Students fetched:', students.length);
 
                 // Fetch Leaves
+                console.log('Fetching leaves...');
                 const leaveRes = await fetch('http://localhost:5000/api/leaves');
-                if (!leaveRes.ok) throw new Error('API unreachable');
+                if (!leaveRes.ok) throw new Error('Leaves API failed');
                 const leaves = await leaveRes.json();
+                console.log('Leaves fetched:', leaves.length);
+
+                const studentCount = Array.isArray(students) ? students.length : 120;
+                const leaveCount = Array.isArray(leaves) ? leaves.filter(l => l && l.status === 'Pending').length : 5;
 
                 setStats({
-                    totalStudents: students.length || 120, // Fallback to 120
+                    totalStudents: studentCount,
                     avgAttendance: '92%',
-                    pendingLeaves: leaves.filter(l => l.status === 'Pending').length || 5
+                    pendingLeaves: leaveCount
                 });
+                clearTimeout(timeout);
                 setLoading(false);
+                console.log('Overview data loaded successfully');
             } catch (error) {
-                console.warn('Backend offline, using fallback data:', error);
-                // Fallback Data if backend is down
-                setStats({
-                    totalStudents: 120,
-                    avgAttendance: '92%',
-                    pendingLeaves: 5
-                });
+                console.error('Overview fetch error:', error);
+                setStats({ totalStudents: 120, avgAttendance: '92%', pendingLeaves: 5 });
                 setLoading(false);
             }
         };
@@ -42,16 +55,17 @@ const Overview = ({ greeting }) => {
         fetchStats();
     }, []);
 
+    console.log('Overview rendering, loading:', loading);
     if (loading) return (
-        <div className="section-box reveal" style={{ textAlign: 'center', padding: '100px 0' }}>
+        <div className="section-box" style={{ textAlign: 'center', padding: '100px 0' }}>
             <div className="loading-spinner"></div>
             <p style={{ marginTop: '20px', color: 'var(--text-muted)' }}>Synchronizing with SXIT Portal...</p>
         </div>
     );
 
     return (
-        <div className="dashboard-content reveal">
-            <div className="content-header">
+        <div className="dashboard-content">
+            <div className="content-header reveal">
                 <h2>{greeting}, Prof. Smith</h2>
                 <p>Here is a quick look at your day today.</p>
             </div>

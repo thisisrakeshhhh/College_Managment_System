@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import StudentDashboard from './pages/StudentDashboard';
@@ -11,6 +12,16 @@ import ReportCard from './pages/exams/ReportCard';
 import './App.css';
 
 function App() {
+    useEffect(() => {
+        // Safety Fallback: Force all content to be visible if animations are blocked or slow
+        const safetyTimer = setTimeout(() => {
+            document.body.classList.add('reveal-all');
+            console.log('Force revealing all content (Safety Fallback triggered)');
+        }, 4000);
+
+        return () => clearTimeout(safetyTimer);
+    }, []);
+
     return (
         <Router>
             <Routes>

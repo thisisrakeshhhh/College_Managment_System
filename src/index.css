@@ -69,6 +69,14 @@ body {
     transform: translateY(0);
 }
 
+/* Safety Fallback: Force reveal after delay if JS fails */
+.reveal-all .reveal {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 0.5s ease !important;
+}
+
+
 .reveal-left {
     opacity: 0;
     transform: translateX(-30px);

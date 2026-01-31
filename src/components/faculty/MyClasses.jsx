@@ -8,8 +8,8 @@ const MyClasses = () => {
     ];
 
     return (
-        <div className="dashboard-content reveal">
-            <div className="content-header">
+        <div className="dashboard-content">
+            <div className="content-header reveal">
                 <h2>My Assigned Classes</h2>
                 <p>Manage your lectures, students, and academic records.</p>
             </div>

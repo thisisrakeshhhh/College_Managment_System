@@ -29,11 +29,21 @@ const StudentDashboard = () => {
         }, observerOptions);
 
         const scanAndObserve = () => {
-            document.querySelectorAll('.reveal:not(.active)').forEach(el => observer.observe(el));
+            const elements = document.querySelectorAll('.reveal:not(.active)');
+            elements.forEach(el => {
+                observer.observe(el);
+                // Safety Fallback: Force visibility after a delay
+                setTimeout(() => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        el.classList.add('active');
+                    }
+                }, 1000);
+            });
         };
 
         scanAndObserve();
-        const scanInterval = setInterval(scanAndObserve, 1000);
+        const scanInterval = setInterval(scanAndObserve, 2000);
 
         return () => {
             clearInterval(scanInterval);
