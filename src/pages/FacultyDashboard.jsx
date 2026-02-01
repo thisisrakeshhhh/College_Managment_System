@@ -15,8 +15,9 @@ import Settings from '../components/faculty/Settings';
 
 const FacultyDashboard = () => {
     const navigate = useNavigate();
-    const [sidebarActive, setSidebarActive] = useState(false);
+    const [sidebarActive, setSidebarActive] = useState(true);
     const [activeRoute, setActiveRoute] = useState('overview');
+    const [openDropdowns, setOpenDropdowns] = useState({});
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
@@ -66,13 +67,31 @@ const FacultyDashboard = () => {
         return "Good Evening";
     };
 
+    const toggleSidebar = () => setSidebarActive(!sidebarActive);
+
+    const toggleDropdown = (e, key) => {
+        e.stopPropagation();
+        setOpenDropdowns(prev => {
+            // Only allow one dropdown open at a time
+            if (prev[key]) return {};
+            return { [key]: true };
+        });
+    };
+
+    const loadRoute = (route) => {
+        setActiveRoute(route);
+        if (window.innerWidth <= 1024) setSidebarActive(false);
+    };
+
     const handleLogout = () => {
         if (window.confirm('Are you sure you want to logout?')) {
             navigate('/');
         }
     };
 
-    // Sub-component Dispatcher
+
+
+    // Sub-component Dispatcher (Keep existing mapping logic but adapt to loadRoute if needed)
     const renderSection = () => {
         switch (activeRoute) {
             case 'overview': return <Overview greeting={getGreeting()} />;
@@ -89,64 +108,90 @@ const FacultyDashboard = () => {
     };
 
     return (
-        <div className="faculty-body">
-            {/* Mobile Toggle & Sidebar Overlay */}
-            <button className="mobile-toggle" onClick={() => setSidebarActive(!sidebarActive)}>
-                <i className="fas fa-bars"></i>
-            </button>
-            {sidebarActive && <div className="sidebar-overlay" onClick={() => setSidebarActive(false)}></div>}
+        <div className={`faculty-body ${sidebarActive ? '' : 'sidebar-collapsed'}`}>
+            {/* Mobile Overlay */}
+            <div className={`sidebar-overlay ${sidebarActive ? 'active' : ''}`} onClick={() => setSidebarActive(false)}></div>
 
-            <aside className={`sidebar ${sidebarActive ? 'active' : ''}`}>
-                <div className="sidebar-brand">
-                    <div className="brand-wrapper">
-                        <div className="brand-logo">
-                            <i className="fas fa-university"></i>
-                        </div>
-                        <span className="brand-name">SXIT PORTAL</span>
+            <aside className={`sidebar-container-premium ${sidebarActive ? 'active' : 'collapsed'}`}>
+                <div className="sidebar-header-premium">
+                    <div className="logo-group" onClick={() => loadRoute('overview')}>
+                        <i className="fas fa-university"></i>
+                        <span className="logo-text">SXIT PORTAL</span>
                     </div>
+                    <button className="hamburger-toggle" onClick={toggleSidebar}>
+                        <i className={`fas ${sidebarActive ? 'fa-times' : 'fa-bars'}`}></i>
+                    </button>
                 </div>
 
-                <nav className="sidebar-nav">
-                    <div className={`nav-item ${activeRoute === 'overview' ? 'active' : ''}`} onClick={() => { setActiveRoute('overview'); setSidebarActive(false); }}>
-                        <i className="fas fa-th-large"></i> Overview
-                    </div>
-                    <div className={`nav-item ${activeRoute === 'classes' ? 'active' : ''}`} onClick={() => { setActiveRoute('classes'); setSidebarActive(false); }}>
-                        <i className="fas fa-chalkboard-user"></i> My Classes
-                    </div>
-                    <div className={`nav-item ${activeRoute === 'attendance' ? 'active' : ''}`} onClick={() => { setActiveRoute('attendance'); setSidebarActive(false); }}>
-                        <i className="fas fa-calendar-check"></i> Attendance
-                    </div>
-                    <div className={`nav-item ${activeRoute === 'performance' ? 'active' : ''}`} onClick={() => { setActiveRoute('performance'); setSidebarActive(false); }}>
-                        <i className="fas fa-chart-line"></i> Performance
-                    </div>
-                    <div className={`nav-item ${activeRoute === 'leaves' ? 'active' : ''}`} onClick={() => { setActiveRoute('leaves'); setSidebarActive(false); }}>
-                        <i className="fas fa-envelope-open-text"></i> Leave & Requests
-                    </div>
-                    <div className={`nav-item ${activeRoute === 'announcements' ? 'active' : ''}`} onClick={() => { setActiveRoute('announcements'); setSidebarActive(false); }}>
-                        <i className="fas fa-bullhorn"></i> Announcements
-                    </div>
-                    <div className={`nav-item ${activeRoute === 'planning' ? 'active' : ''}`} onClick={() => { setActiveRoute('planning'); setSidebarActive(false); }}>
-                        <i className="fas fa-calendar-days"></i> Academic Planning
-                    </div>
-                    <div className={`nav-item ${activeRoute === 'salary' ? 'active' : ''}`} onClick={() => { setActiveRoute('salary'); setSidebarActive(false); }}>
-                        <i className="fas fa-wallet"></i> Salary & Payslips
-                    </div>
-                    <div className={`nav-item ${activeRoute === 'settings' ? 'active' : ''}`} onClick={() => { setActiveRoute('settings'); setSidebarActive(false); }}>
-                        <i className="fas fa-cog"></i> Settings
-                    </div>
-
-                    <div className="sidebar-footer">
-                        <div className="sidebar-profile-card">
-                            <div className="profile-mini-info">
-                                <div className="avatar-sm">PS</div>
-                                <div className="info">
-                                    <span className="name">Prof. Smith</span>
-                                    <span className="role">Senior Faculty</span>
-                                </div>
+                <nav className="sidebar-nav-premium">
+                    <ul>
+                        {/* DASHBOARD */}
+                        <li className={`nav-item-premium ${activeRoute === 'overview' ? 'active' : ''}`} onClick={() => loadRoute('overview')}>
+                            <div className="nav-link-premium">
+                                <i className="fas fa-th-large"></i>
+                                <span className="nav-text">Dashboard</span>
                             </div>
-                        </div>
-                        <div className="nav-item logout" onClick={handleLogout}>
-                            <i className="fas fa-sign-out-alt"></i> Logout
+                        </li>
+
+                        {/* ACADEMIC MANAGEMENT */}
+                        <li className={`nav-item-premium accordion-group ${openDropdowns.academics ? 'open' : ''}`}>
+                            <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'academics')}>
+                                <i className="fas fa-chalkboard-user"></i>
+                                <span className="nav-text">Academic Management</span>
+                                <i className="fas fa-chevron-down arrow-dropdown"></i>
+                            </div>
+                            <ul className="submenu accordion-content">
+                                <li className={`submenu-item ${activeRoute === 'classes' ? 'active' : ''}`} onClick={() => loadRoute('classes')}>My Classes</li>
+                                <li className={`submenu-item ${activeRoute === 'attendance' ? 'active' : ''}`} onClick={() => loadRoute('attendance')}>Attendance Management</li>
+                                <li className={`submenu-item ${activeRoute === 'performance' ? 'active' : ''}`} onClick={() => loadRoute('performance')}>Student Performance</li>
+                            </ul>
+                        </li>
+
+                        {/* ADMINISTRATION */}
+                        <li className={`nav-item-premium accordion-group ${openDropdowns.admin ? 'open' : ''}`}>
+                            <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'admin')}>
+                                <i className="fas fa-briefcase"></i>
+                                <span className="nav-text">Administration</span>
+                                <i className="fas fa-chevron-down arrow-dropdown"></i>
+                            </div>
+                            <ul className="submenu accordion-content">
+                                <li className={`submenu-item ${activeRoute === 'leaves' ? 'active' : ''}`} onClick={() => loadRoute('leaves')}>Leave & Requests</li>
+                                <li className={`submenu-item ${activeRoute === 'announcements' ? 'active' : ''}`} onClick={() => loadRoute('announcements')}>Announcements</li>
+                                <li className={`submenu-item ${activeRoute === 'planning' ? 'active' : ''}`} onClick={() => loadRoute('planning')}>Academic Planning</li>
+                            </ul>
+                        </li>
+
+                        {/* FINANCE */}
+                        <li className={`nav-item-premium accordion-group ${openDropdowns.finance ? 'open' : ''}`}>
+                            <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'finance')}>
+                                <i className="fas fa-wallet"></i>
+                                <span className="nav-text">Finance</span>
+                                <i className="fas fa-chevron-down arrow-dropdown"></i>
+                            </div>
+                            <ul className="submenu accordion-content">
+                                <li className={`submenu-item ${activeRoute === 'salary' ? 'active' : ''}`} onClick={() => loadRoute('salary')}>Salary & Payslips</li>
+                            </ul>
+                        </li>
+
+                        {/* ACCOUNT */}
+                        <li className={`nav-item-premium accordion-group ${openDropdowns.account ? 'open' : ''}`}>
+                            <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'account')}>
+                                <i className="fas fa-cog"></i>
+                                <span className="nav-text">Account</span>
+                                <i className="fas fa-chevron-down arrow-dropdown"></i>
+                            </div>
+                            <ul className="submenu accordion-content">
+                                <li className={`submenu-item ${activeRoute === 'settings' ? 'active' : ''}`} onClick={() => loadRoute('settings')}>Settings</li>
+                                <li className="submenu-item logout" onClick={handleLogout}>Logout</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    {/* Footer Extra section */}
+                    <div className="sidebar-extra-section">
+                        <div className="copyright-text">
+                            <p>&copy; 2024 SXIT Campus Portal</p>
+                            <p>Faculty Access Board</p>
                         </div>
                     </div>
                 </nav>

@@ -2,11 +2,12 @@ import React from 'react';
 
 const Subjects = () => {
     const subjects = [
-        { name: 'Mathematics', teacher: 'Dr. Amit Shah', progress: 75, color: 'blue' },
-        { name: 'Physics', teacher: 'Prof. S.K. Verma', progress: 60, color: 'orange' },
-        { name: 'Chemistry', teacher: 'Dr. Neha Kapoor', progress: 85, color: 'green' },
-        { name: 'English', teacher: 'Ms. Alice George', progress: 90, color: 'purple' },
-        { name: 'Physical Education', teacher: 'Mr. Rajesh Kumar', progress: 40, color: 'red' }
+        { name: 'Physics', teacher: 'Prof. S.K. Verma', progress: 85, color: 'blue' },
+        { name: 'Chemistry', teacher: 'Dr. Neha Kapoor', progress: 78, color: 'orange' },
+        { name: 'Mathematics', teacher: 'Dr. Amit Shah', progress: 92, color: 'green' },
+        { name: 'English', teacher: 'Ms. Alice George', progress: 88, color: 'purple' },
+        { name: 'Computer Science', teacher: 'Mr. Vivek Singh', progress: 95, color: 'blue' },
+        { name: 'Biology', teacher: 'Dr. Priya Sharma', progress: 70, color: 'green' }
     ];
 
     return (

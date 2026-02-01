@@ -17,21 +17,21 @@ const ReportCard = () => {
                 <div className="dash-icon-card icon-blue">
                     <div className="dash-card-icon"><i className="fas fa-percentage"></i></div>
                     <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e293b' }}>91.6%</div>
+                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e293b' }}>95%</div>
                         <span className="dash-card-text">Total Percentage</span>
                     </div>
                 </div>
                 <div className="dash-icon-card icon-green">
                     <div className="dash-card-icon"><i className="fas fa-medal"></i></div>
                     <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e293b' }}>A1</div>
+                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e293b' }}>A+</div>
                         <span className="dash-card-text">Overall Grade</span>
                     </div>
                 </div>
                 <div className="dash-icon-card icon-purple">
                     <div className="dash-card-icon"><i className="fas fa-trophy"></i></div>
                     <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e293b' }}>3rd</div>
+                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e293b' }}>1st</div>
                         <span className="dash-card-text">Class Rank</span>
                     </div>
                 </div>
