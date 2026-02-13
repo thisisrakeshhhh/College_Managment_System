@@ -310,9 +310,6 @@ const StudentDashboard = () => {
                         <i className="fas fa-graduation-cap"></i>
                         <span className="logo-text">SXIT PORTAL</span>
                     </div>
-                    <button className="hamburger-toggle" onClick={toggleSidebar}>
-                        <i className={`fas ${sidebarActive ? 'fa-times' : 'fa-bars'}`}></i>
-                    </button>
                 </div>
 
                 <nav className="sidebar-nav-premium">
@@ -463,6 +460,14 @@ const StudentDashboard = () => {
                                 <li className={`submenu-item ${activeRoute === 'performeroftheweek' ? 'active' : ''}`} onClick={() => loadRoute('performeroftheweek')}>Performer</li>
                             </ul>
                         </li>
+
+                        {/* LOGOUT */}
+                        <li className="nav-item-premium logout-item" onClick={handleLogout}>
+                            <div className="nav-link-premium">
+                                <i className="fas fa-sign-out-alt"></i>
+                                <span className="nav-text">Logout</span>
+                            </div>
+                        </li>
                     </ul>
 
                     {/* Newsletter Subscription at Bottom */}
@@ -494,8 +499,8 @@ const StudentDashboard = () => {
             <main className={`main-content-window ${sidebarActive ? 'active' : 'full-width'}`}>
                 <header className="header-top-minimal">
                     <div className="header-left">
-                        <button className="mobile-menu-btn" onClick={toggleSidebar}>
-                            <i className="fas fa-bars"></i>
+                        <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
+                            <i className={`fas ${sidebarActive ? 'fa-align-left' : 'fa-bars'}`}></i>
                         </button>
                         <h1>Dashboard</h1>
                     </div>

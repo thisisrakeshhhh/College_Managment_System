@@ -54,9 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
         notificationBell.classList.toggle('active');
     });
 
-    document.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
         notificationDropdown.classList.remove('active');
         notificationBell.classList.remove('active');
+
+        // Global Back to Dashboard handler
+        if (e.target.closest('.back-to-dashboard')) {
+            const dashboardNavItem = document.querySelector('.nav-item[data-page="dashboard"]');
+            if (dashboardNavItem) {
+                dashboardNavItem.click();
+            } else {
+                pageTitle.textContent = 'Dashboard';
+                renderPage('dashboard');
+            }
+        }
     });
 
     // --- Notification Logic Fix ---
@@ -193,6 +204,49 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg.style.display = 'block';
             leaveSection.style.display = 'none';
         }
+    };
+
+    window.searchStudentDoc = function () {
+        const rollInput = document.getElementById('rollInputDoc').value;
+        const errorMsg = document.getElementById('errorMsgDoc');
+        const uploadSection = document.getElementById('uploadSection');
+
+        if (!rollInput) return;
+
+        const student = allStudents.find(s => s.id === rollInput || s.id.includes(rollInput));
+
+        if (student) {
+            document.getElementById('studentNameDoc').textContent = student.name;
+            document.getElementById('studentClassDoc').textContent = `${student.grade} - ${student.course}`;
+            document.getElementById('studentRollDoc').textContent = student.id;
+            document.getElementById('studentPhotoDoc').src = '/assets/images/images.jpeg';
+
+            errorMsg.style.display = 'none';
+            uploadSection.style.display = 'block';
+        } else {
+            errorMsg.style.display = 'block';
+            uploadSection.style.display = 'none';
+        }
+    };
+
+    window.handleFileUpload = function () {
+        const fileInput = document.getElementById('docFile');
+        const docType = document.getElementById('docType').value;
+        const uploadStatus = document.getElementById('uploadStatus');
+
+        if (!fileInput.files[0] || !docType) {
+            alert('Please select a file and document type.');
+            return;
+        }
+
+        uploadStatus.style.display = 'block';
+        uploadStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+
+        setTimeout(() => {
+            uploadStatus.innerHTML = '<i class="fas fa-check-circle" style="color: #26de81;"></i> Document uploaded successfully!';
+            fileInput.value = '';
+            document.getElementById('docType').value = '';
+        }, 2000);
     };
 
     window.submitLeaveRequest = function () {
@@ -671,6 +725,83 @@ document.addEventListener('DOMContentLoaded', () => {
                         timeInput.defaultValue = '';
                     }
                 }, 100);
+                break;
+
+            case 'upload-docs':
+                appView.innerHTML = `
+                    <div class="view upload-docs-view">
+                        <div class="section-header" style="margin-bottom: 24px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <button class="btn btn-secondary back-to-dashboard" style="padding: 8px 12px;">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <h3>Upload Student Document</h3>
+                            </div>
+                        </div>
+
+                        <div class="search-card">
+                            <div class="search-section">
+                                <div class="form-group">
+                                    <h3 class="section-title" style="color : var(--primary);">
+                                        <i class="fas fa-search"></i> Find Student
+                                    </h3>
+                                    <label for="rollInputDoc">Student Roll Number</label>
+                                    <input type="text" id="rollInputDoc" class="form-input" placeholder="Enter Roll Number (e.g., 1011)">
+                                </div>
+                                <button class="btn btn-primary" onclick="searchStudentDoc()">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                            <div id="errorMsgDoc" class="error-message">
+                                <i class="fas fa-exclamation-circle"></i> Student not found!
+                            </div>
+                        </div>
+
+                        <div id="uploadSection" class="upload-section" style="display: none; margin-top: 24px;">
+                            <div class="profiles-container-modern">
+                                <div class="profile-card-modern" style="max-width: 400px; margin: 0 auto 24px;">
+                                    <img id="studentPhotoDoc" src="/assets/images/images.jpeg" alt="Student" class="profile-photo-modern">
+                                    <div class="profile-info-modern">
+                                        <h4 id="studentNameDoc">Student Name</h4>
+                                        <p id="studentClassDoc" class="profile-subtitle">Class - Year</p>
+                                        <p class="profile-detail">Roll No: <strong id="studentRollDoc">-</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="leave-form-card">
+                                <h4 class="form-section-title">Upload Documents</h4>
+                                <div class="form-grid-modern">
+                                    <div class="form-group-modern full-width">
+                                        <label for="docType">Document Type</label>
+                                        <select id="docType" class="form-input-modern" required>
+                                            <option value="">Select Document Type</option>
+                                            <option value="ID Proof">ID Proof</option>
+                                            <option value="Marksheet">Marksheet</option>
+                                            <option value="Transfer Certificate">Transfer Certificate</option>
+                                            <option value="Income Certificate">Income Certificate</option>
+                                            <option value="Aadhar card">Aadhar card</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group-modern full-width">
+                                        <label for="docFile">Select File</label>
+                                        <input type="file" id="docFile" class="form-input-modern" style="padding: 10px;">
+                                    </div>
+                                </div>
+
+                                <div class="action-buttons-modern">
+                                    <button class="btn btn-primary-modern" onclick="handleFileUpload()">
+                                        <i class="fas fa-cloud-upload-alt"></i> Upload Document
+                                    </button>
+                                </div>
+
+                                <div id="uploadStatus" style="margin-top: 15px; text-align: center; font-weight: 600; display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 break;
 
             case 'notifications':

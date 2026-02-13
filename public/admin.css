@@ -1306,6 +1306,35 @@ textarea {
         display: none !important;
     }
 
+    /* Upload Document Specific Styles */
+    .upload-docs-view .search-card {
+        background: white;
+        padding: 24px;
+        border-radius: 16px;
+        border: 2px solid var(--border);
+        margin-bottom: 24px;
+    }
+
+    .upload-docs-view .search-section {
+        display: flex;
+        align-items: flex-end;
+        gap: 16px;
+    }
+
+    .upload-docs-view .form-group {
+        flex: 1;
+    }
+
+    .upload-section {
+        animation: fadeIn 0.4s ease;
+    }
+
+    #uploadStatus {
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        background: rgba(74, 108, 247, 0.05);
+    }
 
     .print-only {
         display: block !important;

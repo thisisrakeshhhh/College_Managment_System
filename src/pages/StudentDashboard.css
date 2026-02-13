@@ -430,6 +430,46 @@
     }
 }
 
+/* Sidebar Toggle Button (Custom Header) */
+.sidebar-toggle-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--text-main);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: var(--transition-smooth);
+}
+
+.sidebar-toggle-btn:hover {
+    background: rgba(109, 40, 217, 0.05);
+    color: var(--primary-purple);
+}
+
+/* Specific styles for Logout Item */
+.logout-item {
+    margin-top: 15px;
+}
+
+.logout-item .nav-link-premium {
+    color: #ef4444;
+    /* Red color for logout */
+}
+
+.logout-item .nav-link-premium:hover {
+    background: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+}
+
+.logout-item .nav-text {
+    color: inherit;
+}
+
 /* Dashboard Content Minimalist Redesign */
 .dashboard-content-minimal {
     animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);

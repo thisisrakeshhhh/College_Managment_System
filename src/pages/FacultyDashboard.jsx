@@ -118,9 +118,6 @@ const FacultyDashboard = () => {
                         <i className="fas fa-university"></i>
                         <span className="logo-text">SXIT PORTAL</span>
                     </div>
-                    <button className="hamburger-toggle" onClick={toggleSidebar}>
-                        <i className={`fas ${sidebarActive ? 'fa-times' : 'fa-bars'}`}></i>
-                    </button>
                 </div>
 
                 <nav className="sidebar-nav-premium">
@@ -199,9 +196,14 @@ const FacultyDashboard = () => {
 
             <main className="faculty-main">
                 <header className="dash-header">
-                    <div className="header-search-box">
-                        <i className="fas fa-search"></i>
-                        <input type="text" placeholder="Search student records..." />
+                    <div className="header-left-group">
+                        <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
+                            <i className={`fas ${sidebarActive ? 'fa-align-left' : 'fa-bars'}`}></i>
+                        </button>
+                        <div className="header-search-box">
+                            <i className="fas fa-search"></i>
+                            <input type="text" placeholder="Search student records..." />
+                        </div>
                     </div>
 
                     <div className="header-right">
