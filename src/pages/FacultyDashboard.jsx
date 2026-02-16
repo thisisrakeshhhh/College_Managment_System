@@ -116,7 +116,7 @@ const FacultyDashboard = () => {
                 <div className="sidebar-header-premium">
                     <div className="logo-group" onClick={() => loadRoute('overview')}>
                         <i className="fas fa-university"></i>
-                        <span className="logo-text">SXIT PORTAL</span>
+                        <span className="logo-text">Faculty PORTAL</span>
                     </div>
                 </div>
 
@@ -182,12 +182,20 @@ const FacultyDashboard = () => {
                                 <li className="submenu-item logout" onClick={handleLogout}>Logout</li>
                             </ul>
                         </li>
+
+                        {/* EXIT PORTAL */}
+                        <li className="nav-item-premium exit-item" onClick={handleLogout}>
+                            <div className="nav-link-premium logout-premium">
+                                <i className="fas fa-sign-out-alt"></i>
+                                <span className="nav-text">Exit Portal</span>
+                            </div>
+                        </li>
                     </ul>
 
                     {/* Footer Extra section */}
                     <div className="sidebar-extra-section">
                         <div className="copyright-text">
-                            <p>&copy; 2024 SXIT Campus Portal</p>
+                            <p>&copy; 2026 Faculty Campus Portal</p>
                             <p>Faculty Access Board</p>
                         </div>
                     </div>

@@ -24,6 +24,13 @@ const dummyStudents = [
     { id: 'STU002', name: 'Priya Patel', course: 'BBA', grade: 'XII-A', parentPhone: '+91 8765432109', status: 'Pending' }
 ];
 
+const dummyFaculty = [
+    { id: 'FAC001', name: 'Dr. Ramesh Babu', department: 'Computer Science', course: 'B.Tech CS', subject: 'Data Structures', experience: '15 Years', contact: '+91 9123456780' },
+    { id: 'FAC002', name: 'Prof. Sunita Rao', department: 'Management', course: 'BBA / MBA', subject: 'Business Ethics', experience: '10 Years', contact: '+91 9234567891' },
+    { id: 'FAC003', name: 'Dr. Anil Kumar', department: 'Mathematics', course: 'B.Sc / M.Sc', subject: 'Calculus', experience: '12 Years', contact: '+91 9345678902' },
+    { id: 'FAC004', name: 'Mrs. Kavita Singh', department: 'English', course: 'BA / MA', subject: 'Literature', experience: '8 Years', contact: '+91 9456789013' }
+];
+
 // Routes
 app.get('/', (req, res) => {
     res.send('College Management API is running...');
@@ -47,7 +54,7 @@ app.get('/api/students', async (req, res) => {
 app.get('/api/faculty', async (req, res) => {
     try {
         const faculty = await Faculty.find();
-        res.status(200).json(faculty);
+        res.status(200).json(faculty.length > 0 ? faculty : dummyFaculty);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

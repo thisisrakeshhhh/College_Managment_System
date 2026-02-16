@@ -451,22 +451,26 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Department</th>
-                                        <th>Designation</th>
+                                        <th>Course</th>
+                                        <th>Subject</th>
+                                        <th>Exp.</th>
                                         <th>Contact</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${allFaculty.length === 0 ? `<tr><td colspan="6" style="text-align: center; padding: 20px;">Fetching faculty data...</td></tr>` : allFaculty.map(f => `
+                                    ${allFaculty.length === 0 ? `<tr><td colspan="8" style="text-align: center; padding: 20px;">Fetching faculty data...</td></tr>` : allFaculty.map(f => `
                                         <tr>
                                             <td>#${f.id}</td>
                                             <td>${f.name}</td>
-                                            <td><span class="dept-badge">${f.subject}</span></td>
-                                            <td>${f.experience} Experience</td>
+                                            <td><span class="dept-badge" style="background: #eef2ff; color: #4318FF; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">${f.department || 'N/A'}</span></td>
+                                            <td>${f.course || 'N/A'}</td>
+                                            <td>${f.subject}</td>
+                                            <td>${f.experience}</td>
                                             <td>${f.contact}</td>
                                             <td>
-                                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                                <button class="btn-edit" style="color: #4318FF;"><i class="fas fa-edit"></i></button>
+                                                <button class="btn-delete" style="color: #ea1d48;"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
                                     `).join('')}

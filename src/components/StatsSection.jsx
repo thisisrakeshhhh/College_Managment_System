@@ -64,7 +64,6 @@ const StatsSection = ({ dynamicStats }) => {
             <div className="container stats-grid">
                 {displayStats.map((stat, index) => (
                     <div className="stat-box hover-lift" key={index}>
-                        <div className="stat-icon" style={{ fontSize: '30px', color: 'var(--primary)', marginBottom: '15px' }}><i className="fas fa-chart-line"></i></div>
                         <h2 className="count" data-target={stat.target}>0</h2>
                         <p>{stat.label}</p>
                     </div>

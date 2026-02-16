@@ -7,6 +7,7 @@ const facultySchema = new mongoose.Schema({
     experience: { type: String, required: true },
     contact: { type: String, required: true },
     department: { type: String },
+    course: { type: String },
     joiningDate: { type: Date, default: Date.now }
 }, { timestamps: true });
 

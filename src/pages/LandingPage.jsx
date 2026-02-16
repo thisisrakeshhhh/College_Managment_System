@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import reactLogo from '../assets/react.svg';
 import StatsSection from '../components/StatsSection';
 import AboutSection from '../components/AboutSection';
 import CoursesSection from '../components/CoursesSection';
@@ -12,6 +13,7 @@ import FeeStructureModal from '../components/FeeStructureModal';
 
 const LandingPage = () => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobile menu toggle state
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [isFeeModalOpen, setIsFeeModalOpen] = useState(false);
     const [stats, setStats] = useState([
@@ -69,12 +71,13 @@ const LandingPage = () => {
     }, []);
 
     return (
-        <div className="landing-page">
+        <div className="landing-page" id="home">
             <nav className="site-header">
                 <div className="container header-inner">
                     <div className="brand">
                         <div className="logo-wrapper">
-                            <i className="fas fa-graduation-cap" style={{ fontSize: '32px', color: 'var(--primary)' }}></i>
+                            {/* This is the React logo with a gentle spin animation */}
+                            <img src={reactLogo} alt="React Logo" className="react-logo-spin" style={{ width: '40px', height: '40px' }} />
                         </div>
                         <div className="brand-text">
                             <span className="brand-title">ST. XAVIER'S</span>
@@ -82,11 +85,20 @@ const LandingPage = () => {
                         </div>
                     </div>
                     <div className="nav-right">
-                        <ul className="nav-links">
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#courses">Courses</a></li>
-                            <li><a href="#facilities">Facilities</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                        {/* Hamburger menu button for small screens */}
+                        <button
+                            className="hamburger-toggle"
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            aria-label="Toggle menu"
+                        >
+                            <i className={isMenuOpen ? "fas fa-times" : "fas fa-bars"}></i>
+                        </button>
+
+                        <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+                            <li><a href="#about" onClick={() => setIsMenuOpen(false)}>About</a></li>
+                            <li><a href="#courses" onClick={() => setIsMenuOpen(false)}>Courses</a></li>
+                            <li><a href="#facilities" onClick={() => setIsMenuOpen(false)}>Facilities</a></li>
+                            <li><a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a></li>
                         </ul>
                         <button className="btn-login" onClick={() => setIsLoginModalOpen(true)} style={{ marginLeft: '20px' }}>
                             Portal Login
@@ -133,6 +145,30 @@ const LandingPage = () => {
                     </div>
                 </div>
             </footer>
+
+            {/* Mobile Fast Bar - Visible only on phone screens */}
+            <nav className="mobile-fast-bar">
+                <a href="#home" className="fast-bar-item">
+                    <i className="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#about" className="fast-bar-item">
+                    <i className="fas fa-info-circle"></i>
+                    <span>About</span>
+                </a>
+                <button className="fast-bar-login" onClick={() => setIsLoginModalOpen(true)}>
+                    <i className="fas fa-user-shield"></i>
+                    <span>Login</span>
+                </button>
+                <a href="#courses" className="fast-bar-item">
+                    <i className="fas fa-book"></i>
+                    <span>Courses</span>
+                </a>
+                <a href="#contact" className="fast-bar-item">
+                    <i className="fas fa-envelope"></i>
+                    <span>Contact</span>
+                </a>
+            </nav>
 
             <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
             <FeeStructureModal

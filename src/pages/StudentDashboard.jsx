@@ -1,8 +1,12 @@
+// This is the main dashboard for students. 
+// It's a "Single Page" design, meaning we switch components inside it without reloading.
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './StudentDashboard.css';
 
-// Academic Pages
+// Here we are importing all the smaller parts (components) that make up the dashboard.
+// For example, when you click 'Attendance', it loads the 'Attendance' component here.
 import Attendance from './academics/Attendance';
 import SwitchUsers from './academics/SwitchUsers';
 import Classmates from './academics/Classmates';
@@ -49,6 +53,7 @@ import PrincipalsDesk from './support/PrincipalsDesk';
 import StarFacilitator from './support/StarFacilitator';
 import { Exuberant, Victorious, Performer } from './support/Achievements';
 
+// This configuration object stores the titles for all our sub-pages.
 const CONFIG = {
     pages: {
         dashboard: 'Dashboard Overview',
@@ -90,12 +95,14 @@ const CONFIG = {
 };
 
 const StudentDashboard = () => {
+    // These 'state' variables help us remember things, like if the sidebar is open or closed.
     const navigate = useNavigate();
-    const [sidebarActive, setSidebarActive] = useState(true);
-    const [activeRoute, setActiveRoute] = useState('dashboard');
-    const [openDropdowns, setOpenDropdowns] = useState({});
-    const [email, setEmail] = useState('');
+    const [sidebarActive, setSidebarActive] = useState(true); // Is the sidebar open?
+    const [activeRoute, setActiveRoute] = useState('dashboard'); // Which page are we looking at right now?
+    const [openDropdowns, setOpenDropdowns] = useState({}); // Which menu categories are expanded?
+    const [email, setEmail] = useState(''); // For the newsletter box at the bottom
 
+    // This part handles the "fade-in" animations when you scroll or change pages.
     useEffect(() => {
         const observerOptions = { threshold: 0.1 };
         const observer = new IntersectionObserver((entries) => {
@@ -110,7 +117,7 @@ const StudentDashboard = () => {
             const elements = document.querySelectorAll('.reveal:not(.active)');
             elements.forEach(el => {
                 observer.observe(el);
-                // Safety Fallback: Force visibility after a delay if the observer misses it
+                // If the animation doesn't trigger, we show it manually after 1 second
                 setTimeout(() => {
                     const rect = el.getBoundingClientRect();
                     if (rect.top < window.innerHeight && rect.bottom > 0) {
@@ -120,10 +127,7 @@ const StudentDashboard = () => {
             });
         };
 
-        // Initial scan
         scanAndObserve();
-
-        // Re-scan periodically to catch dynamically loaded content
         const scanInterval = setInterval(scanAndObserve, 2000);
 
         return () => {
@@ -132,19 +136,22 @@ const StudentDashboard = () => {
         };
     }, [activeRoute]);
 
+    // Simple function to open/close the sidebar
     const toggleSidebar = () => setSidebarActive(!sidebarActive);
 
+    // This handles opening only one category list (like 'Academics') at a time in the sidebar
     const toggleDropdown = (e, key) => {
         e.stopPropagation();
         setOpenDropdowns(prev => {
-            // Only allow one dropdown open at a time
             if (prev[key]) return {};
             return { [key]: true };
         });
     };
 
+    // This function changes the main content of the dashboard when you click a link
     const loadRoute = (route) => {
         setActiveRoute(route);
+        // On mobile, we close the sidebar automatically after clicking a link
         if (window.innerWidth <= 768) setSidebarActive(false);
     };
 
@@ -157,12 +164,12 @@ const StudentDashboard = () => {
     const handleSubscribe = (e) => {
         e.preventDefault();
         if (email) {
-            alert(`Subscribed: ${email}`);
+            alert(`Thanks! ${email} has been added to our newsletter.`);
             setEmail('');
         }
     };
 
-    // Component Mapping
+    // This map connects a string ID (like 'attendance') to its actual component.
     const componentMap = {
         'attendance': <Attendance />,
         'switchuser': <SwitchUsers />,
@@ -199,11 +206,13 @@ const StudentDashboard = () => {
         'performeroftheweek': <Performer />
     };
 
+    // This big function decides what to show in the middle of the screen
     const renderContent = () => {
+        // If we are on the main 'dashboard' section, show the profile and overview cards
         if (activeRoute === 'dashboard') {
             return (
                 <div className="dashboard-content-minimal">
-                    {/* Student Profile Card (Top) */}
+                    {/* Top part: Student profile details */}
                     <div className="profile-card-premium reveal">
                         <div className="profile-card-content">
                             <div className="profile-avatar-wrapper">
@@ -221,7 +230,7 @@ const StudentDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Quick Overview Section (3 Cards ONLY) */}
+                    {/* Middle part: Quick stats cards */}
                     <div className="section-header-minimal reveal">
                         <h3>Quick Overview</h3>
                         <p>Summary of your academic performance</p>
@@ -253,7 +262,7 @@ const StudentDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Recent Activities Section */}
+                    {/* Bottom part: Recent clickable activities */}
                     <div className="section-header-minimal reveal">
                         <h3>Recent Activities</h3>
                         <p>Latest updates from your classes</p>
@@ -279,15 +288,18 @@ const StudentDashboard = () => {
                 </div>
             );
         } else {
+            // If we are NOT on the dashboard, we look up which component to show instead
             const CurrentComponent = componentMap[activeRoute];
             return (
                 <div className="dynamic-content-area reveal">
+                    {/* Header for sub-pages with a 'Back' button */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
                         <h2 style={{ margin: 0 }}>{CONFIG.pages[activeRoute] || activeRoute}</h2>
                         <button className="btn-primary" onClick={() => loadRoute('dashboard')}>
                             <i className="fas fa-arrow-left"></i> Back
                         </button>
                     </div>
+                    {/* If we have the component, show it. Otherwise show 'Coming Soon'. */}
                     {CurrentComponent ? CurrentComponent : (
                         <div className="glass-card" style={{ padding: '40px', textAlign: 'center' }}>
                             <p>Content for {CONFIG.pages[activeRoute]} is coming soon...</p>
@@ -300,21 +312,21 @@ const StudentDashboard = () => {
 
     return (
         <div className={`dashboard-body ${sidebarActive ? '' : 'sidebar-collapsed'}`}>
-            {/* Mobile Overlay */}
-            <div className={`sidebar-overlay ${sidebarActive ? 'active' : ''}`} onClick={toggleSidebar}></div>
+            {/* Dark background overlay for mobile when sidebar is open */}
+            <div className={`sidebar-overlay ${sidebarActive ? 'active' : ''}`} onClick={() => setSidebarActive(false)}></div>
 
-            {/* Reusable Sidebar component logic integrated here */}
+            {/* THE SIDEBAR: Contains all navigation links */}
             <aside className={`sidebar-container-premium ${sidebarActive ? 'active' : 'collapsed'}`}>
                 <div className="sidebar-header-premium">
                     <div className="logo-group" onClick={() => loadRoute('dashboard')}>
                         <i className="fas fa-graduation-cap"></i>
-                        <span className="logo-text">SXIT PORTAL</span>
+                        <span className="logo-text">Student PORTAL</span>
                     </div>
                 </div>
 
                 <nav className="sidebar-nav-premium">
                     <ul>
-                        {/* DASHBOARD - SINGLE ITEM */}
+                        {/* THE DASHBOARD LINK */}
                         <li className={`nav-item-premium ${activeRoute === 'dashboard' ? 'active' : ''}`} onClick={() => loadRoute('dashboard')}>
                             <div className="nav-link-premium">
                                 <i className="fas fa-th-large"></i>
@@ -322,7 +334,7 @@ const StudentDashboard = () => {
                             </div>
                         </li>
 
-                        {/* FREQUENTLY USED */}
+                        {/* FREQUENTLY USED SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.frequent ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'frequent')}>
                                 <i className="fas fa-star"></i>
@@ -339,7 +351,7 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* ACADEMICS */}
+                        {/* ACADEMICS SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.academics ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'academics')}>
                                 <i className="fas fa-book"></i>
@@ -355,7 +367,7 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* TRANSPORT */}
+                        {/* TRANSPORT SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.transport ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'transport')}>
                                 <i className="fas fa-bus"></i>
@@ -369,7 +381,7 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* EXAMINATION */}
+                        {/* EXAMINATION SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.examination ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'examination')}>
                                 <i className="fas fa-file-invoice"></i>
@@ -381,7 +393,7 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* FEES */}
+                        {/* FEES SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.fees ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'fees')}>
                                 <i className="fas fa-wallet"></i>
@@ -394,7 +406,7 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* COMMUNICATION */}
+                        {/* COMMUNICATION SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.communication ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'communication')}>
                                 <i className="fas fa-comment-alt"></i>
@@ -412,7 +424,7 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* LEAVE & APPOINTMENTS */}
+                        {/* LEAVE SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.leave ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'leave')}>
                                 <i className="fas fa-calendar-alt"></i>
@@ -427,7 +439,7 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* REQUESTS & MORE */}
+                        {/* REQUESTS SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.requests ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'requests')}>
                                 <i className="fas fa-paper-plane"></i>
@@ -441,7 +453,7 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* SUPPORT */}
+                        {/* SUPPORT SECTION */}
                         <li className={`nav-item-premium accordion-group ${openDropdowns.support ? 'open' : ''}`}>
                             <div className="accordion-header" onClick={(e) => toggleDropdown(e, 'support')}>
                                 <i className="fas fa-headset"></i>
@@ -461,16 +473,16 @@ const StudentDashboard = () => {
                             </ul>
                         </li>
 
-                        {/* LOGOUT */}
-                        <li className="nav-item-premium logout-item" onClick={handleLogout}>
-                            <div className="nav-link-premium">
+                        {/* THE LOGOUT BUTTON */}
+                        <li className="nav-item-premium exit-item" onClick={handleLogout}>
+                            <div className="nav-link-premium logout-premium">
                                 <i className="fas fa-sign-out-alt"></i>
-                                <span className="nav-text">Logout</span>
+                                <span className="nav-text">Exit Portal</span>
                             </div>
                         </li>
                     </ul>
 
-                    {/* Newsletter Subscription at Bottom */}
+                    {/* Footer part of the sidebar: Newsletter subscription */}
                     <div className="sidebar-extra-section">
                         <div className="newsletter-box">
                             <h5>Newsletter</h5>
@@ -489,14 +501,19 @@ const StudentDashboard = () => {
                             </form>
                         </div>
                         <div className="copyright-text">
-                            <p>&copy; 2024 SXIT Campus Portal</p>
+                            <p>&copy; 2026 Student Campus Portal</p>
                             <p>All Rights Reserved</p>
                         </div>
                     </div>
                 </nav>
             </aside>
 
-            <main className={`main-content-window ${sidebarActive ? 'active' : 'full-width'}`}>
+            {/* THE MAIN CONTENT WINDOW: The part that changes when you click things */}
+            <main className={`main-content-window ${sidebarActive ? 'active' : 'full-width'}`} style={{
+                marginLeft: sidebarActive ? 'var(--sidebar-width)' : 'var(--sidebar-collapsed-width)',
+                transition: 'var(--transition-smooth)'
+            }}>
+                {/* Top header bar with title and toggle button */}
                 <header className="header-top-minimal">
                     <div className="header-left">
                         <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
@@ -505,13 +522,14 @@ const StudentDashboard = () => {
                         <h1>Dashboard</h1>
                     </div>
                     <div className="header-right">
-                        <div className="notification-icon"><i className="fas fa-bell"></i><span className="badge"></span></div>
+                        {/* We removed the notification bell from here recently */}
                         <div className="user-profile-head" onClick={handleLogout}>
                             <span>JD</span>
                         </div>
                     </div>
                 </header>
                 <div className="content-inner-view">
+                    {/* This renders whatever page is active */}
                     {renderContent()}
                 </div>
             </main>
