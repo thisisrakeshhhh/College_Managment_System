@@ -1,0 +1,2317 @@
+/* =========================================================
+   LandingPage.css — ST. XAVIER'S INSTITUTE OF TECHNOLOGY
+   CU CHD-Style Theme | Blue Palette
+   ========================================================= */
+
+/* ── IMPORTS ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+/* ── VARIABLES ── */
+:root {
+    --cu-primary: #1a3c8f;
+    --cu-primary-dark: #0d2260;
+    --cu-primary-light: #2a5ac5;
+    --cu-accent: #0066cc;
+    --cu-white: #ffffff;
+    --cu-light: #f0f4ff;
+    --cu-text: #1e293b;
+    --cu-muted: #64748b;
+    --cu-border: #e2e8f0;
+    --cu-gold: #f59e0b;
+    --cu-navbar-h: 70px;
+    --cu-strip-h: 36px;
+    --cu-radius: 16px;
+    --cu-shadow: 0 10px 30px -10px rgba(26, 60, 143, 0.15);
+    --cu-shadow-lg: 0 20px 50px -15px rgba(26, 60, 143, 0.25);
+    --cu-transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    --cu-glass: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.cu-landing {
+    font-family: 'Inter', sans-serif;
+    color: var(--cu-text);
+    overflow-x: hidden;
+}
+
+.cu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ── SCROLL REVEAL ── */
+.cu-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.cu-reveal.cu-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── TOP STRIP ── */
+.cu-top-strip {
+    background: var(--cu-primary-dark);
+    height: var(--cu-strip-h);
+    overflow: hidden;
+}
+
+.cu-strip-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.cu-marquee {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.cu-marquee span {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 12px;
+    animation: cu-marquee 30s linear infinite;
+}
+
+@keyframes cu-marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.cu-strip-right {
+    display: flex;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.cu-strip-right a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+}
+
+.cu-strip-right a:hover {
+    color: white;
+}
+
+/* ── NAVBAR ── */
+.cu-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--cu-primary);
+    transition: var(--cu-transition);
+}
+
+.cu-navbar-scrolled {
+    background: var(--cu-primary-dark);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cu-nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: var(--cu-navbar-h);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.cu-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.cu-logo-spin {
+    width: 40px;
+    height: 40px;
+    animation: cu-spin 8s linear infinite;
+    filter: drop-shadow(0 0 6px rgba(0, 216, 255, 0.4));
+}
+
+@keyframes cu-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.cu-brand-text {
+    line-height: 1.1;
+}
+
+.cu-brand-name {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+.cu-brand-sub {
+    display: block;
+    font-size: 9px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Desktop Nav */
+.cu-nav-links {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    gap: 4px;
+}
+
+.cu-nav-item {
+    position: relative;
+    padding: 8px 12px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: var(--cu-transition);
+    white-space: nowrap;
+}
+
+.cu-nav-item:hover,
+.cu-nav-item.cu-active {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.cu-nav-item i {
+    font-size: 9px;
+    margin-left: 4px;
+}
+
+/* Dropdown */
+.cu-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: white;
+    border-radius: var(--cu-radius);
+    box-shadow: var(--cu-shadow-lg);
+    min-width: 220px;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: var(--cu-transition);
+    z-index: 999;
+    border-top: 3px solid var(--cu-primary);
+}
+
+.cu-nav-item:hover .cu-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cu-dropdown a {
+    display: block;
+    padding: 9px 18px;
+    color: var(--cu-text);
+    text-decoration: none;
+    font-size: 13px;
+    transition: var(--cu-transition);
+}
+
+.cu-dropdown a:hover {
+    background: var(--cu-light);
+    color: var(--cu-primary);
+    padding-left: 24px;
+}
+
+/* CTA */
+.cu-nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.cu-btn-login {
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--cu-transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cu-btn-login:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
+.cu-btn-apply {
+    background: var(--cu-gold);
+    border: none;
+    color: #1a1a1a;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--cu-transition);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.cu-btn-apply:hover {
+    background: #e08c00;
+    transform: translateY(-1px);
+}
+
+.cu-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* Mobile Menu */
+.cu-mobile-menu {
+    background: var(--cu-primary-dark);
+    padding: 20px 24px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.cu-mobile-section {
+    margin-bottom: 16px;
+}
+
+.cu-mobile-heading {
+    color: var(--cu-gold);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+.cu-mobile-menu a {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+.cu-mobile-btns {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cu-mobile-btns button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.cu-mobile-btns button:first-child {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.cu-mobile-btns button:last-child {
+    background: var(--cu-gold);
+    color: #1a1a1a;
+}
+
+/* ── HERO SLIDER ── */
+.cu-hero {
+    position: relative;
+    height: 90vh;
+    min-height: 560px;
+    overflow: hidden;
+}
+
+.cu-hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+}
+
+.cu-hero-active {
+    opacity: 1;
+}
+
+.cu-hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.03);
+    transition: transform 6s ease;
+}
+
+.cu-hero-active .cu-hero-bg {
+    transform: scale(1);
+}
+
+.cu-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, rgba(10, 24, 80, 0.88) 30%, rgba(10, 24, 80, 0.5) 70%, rgba(10, 24, 80, 0.3) 100%);
+}
+
+.cu-hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 750px;
+    text-align: center;
+}
+
+.cu-hero-badge {
+    display: inline-block;
+    background: var(--cu-gold);
+    color: #1a1a1a;
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.cu-hero-content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.cu-hero-highlight {
+    color: #60c0ff;
+}
+
+.cu-hero-content p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: clamp(14px, 2vw, 18px);
+    max-width: 600px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+}
+
+.cu-hero-btns {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cu-btn-primary {
+    background: linear-gradient(135deg, var(--cu-primary), var(--cu-accent));
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--cu-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 6px 20px rgba(26, 60, 143, 0.4);
+    text-decoration: none;
+}
+
+.cu-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(26, 60, 143, 0.5);
+}
+
+.cu-btn-ghost {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--cu-transition);
+    text-decoration: none;
+}
+
+.cu-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.cu-hero-dots {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.cu-hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cu-hero-dot.active {
+    width: 28px;
+    border-radius: 4px;
+    background: var(--cu-gold);
+}
+
+.cu-scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    right: 40px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    animation: cu-bounce 2s ease infinite;
+}
+
+@keyframes cu-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+/* ── STATS BAR ── */
+.cu-stats-bar {
+    background: var(--cu-primary);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.cu-stat-card {
+    padding: 28px 40px;
+    text-align: center;
+    position: relative;
+    flex: 1;
+    min-width: 140px;
+}
+
+.cu-stat-card::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.cu-stat-card:last-child::after {
+    display: none;
+}
+
+.cu-stat-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+}
+
+.cu-stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.72);
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+/* ── ACHIEVEMENTS ── */
+.cu-achievements {
+    background: white;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--cu-border);
+}
+
+.cu-achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.cu-achievement-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    background: var(--cu-light);
+    border-radius: 10px;
+    border-left: 4px solid var(--cu-primary);
+}
+
+.cu-achievement-card i {
+    font-size: 22px;
+    color: var(--cu-primary);
+    flex-shrink: 0;
+}
+
+.cu-achievement-card strong {
+    display: block;
+    font-size: 14px;
+    color: var(--cu-text);
+    font-weight: 700;
+}
+
+.cu-achievement-card span {
+    font-size: 12px;
+    color: var(--cu-muted);
+}
+
+/* ── SECTION HEADER ── */
+.cu-section-head {
+    text-align: center;
+    margin-bottom: 52px;
+}
+
+.cu-tag {
+    display: inline-block;
+    background: var(--cu-light);
+    color: var(--cu-primary);
+    padding: 5px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+}
+
+.cu-section-head h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: 800;
+    color: var(--cu-text);
+    margin-bottom: 12px;
+}
+
+.cu-section-head h2 span {
+    color: var(--cu-primary);
+}
+
+.cu-section-head p {
+    font-size: 16px;
+    color: var(--cu-muted);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* ── PROGRAMS ── */
+.cu-programs {
+    padding: 90px 0;
+    background: var(--cu-light);
+}
+
+.cu-programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(252px, 1fr));
+    gap: 24px;
+}
+
+.cu-program-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 28px;
+    transition: var(--cu-transition);
+    border-bottom: 4px solid var(--card-color, var(--cu-primary));
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+}
+
+.cu-program-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--cu-shadow-lg);
+}
+
+.cu-program-icon {
+    width: 58px;
+    height: 58px;
+    background: var(--card-color, var(--cu-primary));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.cu-program-icon i {
+    font-size: 24px;
+    color: white;
+}
+
+.cu-program-card h3 {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: var(--cu-text);
+}
+
+.cu-program-card p {
+    font-size: 13px;
+    color: var(--cu-muted);
+    margin-bottom: 18px;
+    line-height: 1.5;
+}
+
+.cu-program-link {
+    color: var(--card-color, var(--cu-primary));
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s;
+}
+
+.cu-program-link:hover {
+    gap: 10px;
+}
+
+/* ── WHY CHOOSE US ── */
+.cu-why {
+    padding: 120px 0;
+    background: white;
+}
+
+.cu-why-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.cu-why-images {
+    position: relative;
+}
+
+.cu-why-img1 {
+    width: 85%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: var(--cu-shadow-lg);
+}
+
+.cu-why-img2 {
+    position: absolute;
+    width: 50%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 5px solid white;
+    box-shadow: var(--cu-shadow-lg);
+    bottom: -24px;
+    right: 0;
+}
+
+.cu-why-badge {
+    position: absolute;
+    top: 24px;
+    right: 10px;
+    background: var(--cu-gold);
+    color: #1a1a1a;
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align: center;
+    box-shadow: var(--cu-shadow);
+    z-index: 2;
+}
+
+.cu-why-badge strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.cu-why-badge span {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.cu-why-text h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 2.5vw, 34px);
+    font-weight: 800;
+    margin: 12px 0;
+}
+
+.cu-why-text h2 span {
+    color: var(--cu-primary);
+}
+
+.cu-why-text>p {
+    font-size: 15px;
+    color: var(--cu-muted);
+    line-height: 1.8;
+    margin-bottom: 24px;
+}
+
+.cu-why-points {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.cu-why-point {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--cu-text);
+}
+
+.cu-why-point i {
+    color: var(--cu-primary);
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+/* ── CAMPUS LIFE ── */
+.cu-campus {
+    padding: 120px 0;
+    background: white;
+}
+
+.cu-campus-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+    height: 520px;
+}
+
+.cu-campus-main {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.cu-campus-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.cu-campus-main:hover img {
+    transform: scale(1.04);
+}
+
+.cu-campus-side {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+}
+
+.cu-campus-small {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.cu-campus-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.cu-campus-small:hover img {
+    transform: scale(1.05);
+}
+
+.cu-campus-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 14px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cu-campus-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.cu-campus-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cu-text);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.cu-campus-feature i {
+    color: var(--cu-primary);
+}
+
+/* ── PLACEMENTS ── */
+.cu-placements {
+    padding: 120px 0;
+    background: linear-gradient(135deg, var(--cu-primary-dark) 0%, var(--cu-primary) 60%, var(--cu-accent) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.cu-placements::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+}
+
+.cu-placement-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 56px;
+}
+
+.cu-placement-stat {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--cu-glass);
+    border-radius: var(--cu-radius);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    transition: var(--cu-transition);
+}
+
+.cu-placement-stat:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-5px);
+}
+
+.cu-placement-stat strong {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 6px;
+}
+
+.cu-placement-stat span {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+/* Company marquee */
+.cu-companies {
+    overflow: hidden;
+}
+
+.cu-companies-track {
+    display: flex;
+    gap: 16px;
+    animation: cu-marquee-companies 25s linear infinite;
+    width: max-content;
+}
+
+@keyframes cu-marquee-companies {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.cu-company-badge {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+}
+
+/* ── TESTIMONIALS ── */
+.cu-testimonials {
+    padding: 90px 0;
+    background: white;
+}
+
+.cu-testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+}
+
+.cu-testimonial-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    transition: var(--cu-transition);
+    border: 1px solid var(--cu-border);
+    box-shadow: var(--cu-shadow);
+}
+
+.cu-testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--cu-shadow-lg);
+}
+
+.cu-quote-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--cu-primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.cu-quote-icon i {
+    color: white;
+    font-size: 16px;
+}
+
+.cu-testimonial-card>p {
+    font-size: 14.5px;
+    color: var(--cu-text);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    font-style: italic;
+}
+
+.cu-testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cu-testimonial-author img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--cu-primary);
+}
+
+.cu-testimonial-author strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cu-text);
+}
+
+.cu-testimonial-author span {
+    font-size: 12px;
+    color: var(--cu-muted);
+}
+
+/* ── CTA BANNER ── */
+.cu-cta-banner {
+    background: linear-gradient(135deg, white 0%, var(--cu-light) 100%);
+    padding: 120px 0;
+    text-align: center;
+    border-top: 1px solid var(--cu-border);
+}
+
+.cu-cta-banner h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 3.5vw, 40px);
+    font-weight: 800;
+    color: var(--cu-text);
+    margin-bottom: 12px;
+}
+
+.cu-cta-banner h2 span {
+    color: var(--cu-primary);
+}
+
+.cu-cta-banner p {
+    font-size: 16px;
+    color: var(--cu-muted);
+    max-width: 560px;
+    margin: 0 auto 32px;
+}
+
+.cu-cta-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cu-btn-ghost-dark {
+    background: white;
+    color: var(--cu-primary);
+    border: 2px solid var(--cu-primary);
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--cu-transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cu-btn-ghost-dark:hover {
+    background: var(--cu-primary);
+    color: white;
+}
+
+/* ── FOOTER ── */
+.cu-footer {
+    background: var(--cu-primary-dark);
+    padding: 70px 0 0;
+}
+
+.cu-footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr 1.4fr;
+    gap: 36px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cu-footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.cu-footer-logo strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 800;
+    color: white;
+}
+
+.cu-footer-logo small {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1.5px;
+}
+
+.cu-footer-brand p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.cu-social {
+    display: flex;
+    gap: 10px;
+}
+
+.cu-social a {
+    width: 34px;
+    height: 34px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 14px;
+    text-decoration: none;
+    transition: var(--cu-transition);
+}
+
+.cu-social a:hover {
+    background: var(--cu-accent);
+    color: white;
+}
+
+.cu-footer-col h4 {
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--cu-accent);
+    display: inline-block;
+}
+
+.cu-footer-col a {
+    display: block;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 4px 0;
+    transition: color 0.2s, padding-left 0.2s;
+}
+
+.cu-footer-col a:hover {
+    color: white;
+    padding-left: 4px;
+}
+
+.cu-footer-col p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 4px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.cu-footer-col p i {
+    margin-top: 2px;
+    color: var(--cu-accent);
+    flex-shrink: 0;
+}
+
+.cu-footer-bottom {
+    padding: 18px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.cu-footer-bottom span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.cu-footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.cu-footer-links a {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: none;
+}
+
+.cu-footer-links a:hover {
+    color: white;
+}
+
+/* ── LOGIN MODAL (keep working) ── */
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 60, 0.75);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+}
+
+.login-box {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.login-box h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--cu-primary);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--cu-muted);
+    cursor: pointer;
+}
+
+.login-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    background: var(--cu-light);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    background: none;
+    color: var(--cu-muted);
+    transition: var(--cu-transition);
+}
+
+.tab-btn.active {
+    background: var(--cu-primary);
+    color: white;
+    box-shadow: var(--cu-shadow);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--cu-border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--cu-text);
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.input-group input:focus {
+    border-color: var(--cu-primary);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--cu-muted);
+    cursor: pointer;
+}
+
+.btn-primary.full-width {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+.demo-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--cu-muted);
+    margin-top: 4px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+    .cu-nav-links {
+        display: none;
+    }
+
+    .cu-hamburger {
+        display: block;
+    }
+
+    .cu-btn-apply {
+        display: none;
+    }
+
+    .cu-footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cu-why-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .cu-placement-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .cu-top-strip .cu-strip-right {
+        display: none;
+    }
+
+    .cu-hero {
+        height: 70vh;
+    }
+
+    .cu-stats-bar {
+        flex-wrap: wrap;
+    }
+
+    .cu-stat-card {
+        min-width: 45%;
+    }
+
+    .cu-campus-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .cu-campus-side {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: unset;
+    }
+
+    .cu-campus-small {
+        height: 160px;
+    }
+
+    .cu-campus-main {
+        height: 280px;
+    }
+
+    .cu-footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-footer-col:not(:first-child) {
+        display: none;
+    }
+
+    .cu-footer-brand {
+        display: block;
+    }
+
+    .cu-placements .cu-section-head {
+        margin-bottom: 30px;
+    }
+
+    .cu-placement-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .cu-footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .cu-hero-content h1 {
+        font-size: 24px;
+    }
+
+    .cu-hero-btns {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cu-stat-card {
+        min-width: 100%;
+        padding: 20px;
+    }
+
+    .cu-stat-card::after {
+        display: none;
+    }
+
+    .cu-programs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-admission-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-step-arrow {
+        display: none;
+    }
+
+    .cu-research-inner,
+    .cu-global-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-flags-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ── RESEARCH & INNOVATION ── */
+.cu-research {
+    padding: 90px 0;
+    background: var(--cu-light);
+}
+
+.cu-research-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.cu-research-text h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 800;
+    color: var(--cu-text);
+    margin: 12px 0;
+}
+
+.cu-research-text h2 span {
+    color: var(--cu-primary);
+}
+
+.cu-research-text>p {
+    font-size: 15px;
+    color: var(--cu-muted);
+    line-height: 1.8;
+    margin-bottom: 28px;
+}
+
+.cu-research-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.cu-research-stat {
+    background: white;
+    border-radius: 12px;
+    padding: 16px 18px;
+    border-left: 4px solid var(--cu-primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.cu-research-stat strong {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--cu-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.cu-research-stat span {
+    font-size: 12px;
+    color: var(--cu-muted);
+    font-weight: 500;
+}
+
+.cu-research-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cu-research-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cu-primary);
+    text-decoration: none;
+    background: white;
+    padding: 8px 14px;
+    border-radius: 50px;
+    border: 1.5px solid var(--cu-border);
+    transition: var(--cu-transition);
+}
+
+.cu-research-link:hover {
+    background: var(--cu-primary);
+    color: white;
+    border-color: var(--cu-primary);
+}
+
+.cu-research-visual {
+    position: relative;
+}
+
+.cu-research-bg-img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: var(--cu-shadow-lg);
+}
+
+.cu-research-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    right: 40px;
+}
+
+.cu-research-mini-card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px 16px;
+    text-align: center;
+    box-shadow: var(--cu-shadow-lg);
+    border-top: 3px solid var(--rc, var(--cu-primary));
+    transition: var(--cu-transition);
+}
+
+.cu-research-mini-card:hover {
+    transform: translateY(-4px);
+}
+
+.cu-research-mini-card i {
+    font-size: 20px;
+    color: var(--rc, var(--cu-primary));
+    margin-bottom: 8px;
+    display: block;
+}
+
+.cu-research-mini-card strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cu-text);
+    margin-bottom: 3px;
+}
+
+.cu-research-mini-card span {
+    font-size: 11px;
+    color: var(--cu-muted);
+}
+
+/* ── ADMISSIONS STEPS ── */
+.cu-admissions {
+    padding: 90px 0;
+    background: white;
+}
+
+.cu-admission-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-bottom: 36px;
+}
+
+.cu-admission-step {
+    text-align: center;
+    padding: 36px 20px;
+    position: relative;
+    background: var(--cu-light);
+    transition: var(--cu-transition);
+}
+
+.cu-admission-step:first-child {
+    border-radius: 16px 0 0 16px;
+}
+
+.cu-admission-step:last-child {
+    border-radius: 0 16px 16px 0;
+}
+
+.cu-admission-step:nth-child(even) {
+    background: white;
+    border: 2px solid var(--cu-border);
+    border-left: none;
+    border-right: none;
+}
+
+.cu-admission-step:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--cu-shadow-lg);
+    z-index: 2;
+    border-radius: 12px;
+}
+
+.cu-step-number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 44px;
+    font-weight: 900;
+    color: var(--cu-border);
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.cu-step-icon {
+    width: 52px;
+    height: 52px;
+    background: var(--cu-primary);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    box-shadow: 0 6px 18px rgba(26, 60, 143, 0.35);
+}
+
+.cu-step-icon i {
+    font-size: 20px;
+    color: white;
+}
+
+.cu-admission-step h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cu-text);
+    margin-bottom: 8px;
+}
+
+.cu-admission-step>p {
+    font-size: 13px;
+    color: var(--cu-muted);
+    line-height: 1.6;
+}
+
+.cu-step-arrow {
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    background: var(--cu-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    z-index: 3;
+    box-shadow: 0 4px 12px rgba(26, 60, 143, 0.3);
+    transition: var(--cu-transition);
+}
+
+.cu-admission-step:hover .cu-step-icon {
+    transform: rotate(10deg) scale(1.15);
+    background: var(--cu-primary);
+    color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cu-admission-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--cu-light);
+    border-radius: 14px;
+    padding: 20px 28px;
+    border: 1.5px solid var(--cu-border);
+}
+
+.cu-admission-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.cu-admission-info i {
+    font-size: 28px;
+    color: var(--cu-primary);
+}
+
+.cu-admission-info strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cu-text);
+}
+
+.cu-admission-info span {
+    font-size: 13px;
+    color: var(--cu-muted);
+}
+
+/* ── GLOBAL EXPERIENCE ── */
+.cu-global {
+    padding: 120px 0;
+    background: linear-gradient(135deg, var(--cu-primary-dark) 0%, var(--cu-primary-light) 100%);
+    color: white;
+}
+
+.cu-global-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.cu-global-text h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 800;
+    margin: 12px 0;
+}
+
+.cu-global-text>p {
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 24px;
+}
+
+.cu-global-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.cu-global-h {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cu-global-h i {
+    color: #60c0ff;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.cu-global-flags {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--cu-shadow-lg);
+}
+
+.cu-global-flag-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cu-flags-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.cu-flag-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    transition: var(--cu-transition);
+    cursor: pointer;
+}
+
+.cu-flag-item:hover {
+    transform: translateY(-5px);
+}
+
+.cu-flag-item:hover .cu-flag-img {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.cu-flag-img {
+    width: 36px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.cu-flag-item span {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.cu-flag-more .cu-flag-more-icon {
+    width: 36px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ── NEWS & EVENTS ── */
+.cu-news {
+    padding: 120px 0;
+    background: var(--cu-light);
+}
+
+.cu-news-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.cu-news-head h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 3.5vw, 36px);
+    font-weight: 800;
+    color: var(--cu-text);
+    margin-top: 8px;
+}
+
+.cu-news-head h2 span {
+    color: var(--cu-primary);
+}
+
+.cu-news-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--cu-primary);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--cu-primary);
+    white-space: nowrap;
+    transition: gap 0.2s;
+}
+
+.cu-news-all:hover {
+    gap: 10px;
+}
+
+.cu-news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 24px;
+}
+
+.cu-news-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: var(--cu-transition);
+}
+
+.cu-news-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--cu-shadow-lg);
+}
+
+.cu-news-img {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.cu-news-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.cu-news-card:hover .cu-news-img img {
+    transform: scale(1.06);
+}
+
+.cu-news-cat {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--cu-primary);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cu-news-body {
+    padding: 20px;
+}
+
+.cu-news-date {
+    font-size: 12px;
+    color: var(--cu-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.cu-news-body h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cu-text);
+    line-height: 1.5;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cu-news-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--cu-primary);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: gap 0.2s;
+}
+
+.cu-news-read:hover {
+    gap: 10px;
+}
+
+/* ── RESPONSIVE: NEW SECTIONS ── */
+@media (max-width: 1024px) {
+    .cu-research-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-research-card-grid {
+        position: static;
+        margin-top: 20px;
+    }
+
+    .cu-research-bg-img {
+        height: 260px;
+    }
+
+    .cu-global-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-admission-steps {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .cu-research-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cu-flags-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cu-admission-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-admission-step {
+        border-radius: 12px !important;
+        margin-bottom: 4px;
+    }
+
+    .cu-step-arrow {
+        display: none;
+    }
+
+    .cu-admission-bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .cu-news-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .cu-news-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── ADMISSIONS MODAL ── */
+.admissions-modal {
+    max-width: 480px !important;
+    max-height: 85vh;
+    overflow-y: auto !important;
+    padding: 40px !important;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cu-primary) transparent;
+}
+
+.admissions-modal::-webkit-scrollbar {
+    width: 6px;
+}
+
+.admissions-modal::-webkit-scrollbar-thumb {
+    background-color: var(--cu-primary);
+    border-radius: 10px;
+}
+
+.admissions-head {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.admissions-head i {
+    font-size: 32px;
+    color: var(--cu-primary);
+    margin-bottom: 12px;
+    background: var(--cu-light);
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.admissions-head h3 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--cu-primary);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.admissions-head p {
+    font-size: 14px;
+    color: var(--cu-muted);
+    line-height: 1.5;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.admissions-modal .input-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--cu-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.admissions-select {
+    width: 100%;
+    padding: 13px 16px;
+    border: 2px solid var(--cu-border);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--cu-text);
+    outline: none;
+    background: #f8fafc;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='currentColor'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpolyline%20points='6%209%2012%2015%2018%209'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    transition: var(--cu-transition);
+}
+
+.admissions-select:focus {
+    border-color: var(--cu-primary);
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(26, 60, 143, 0.1);
+}
+
+.admissions-submit {
+    margin-top: 15px !important;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    height: 52px;
+    font-size: 16px !important;
+    background: linear-gradient(135deg, var(--cu-primary) 0%, var(--cu-primary-dark) 100%) !important;
+}
+
+.admissions-divider {
+    text-align: center;
+    margin: 24px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admissions-divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--cu-border);
+}
+
+.admissions-divider span {
+    background: white;
+    padding: 0 16px;
+    position: relative;
+    z-index: 2;
+    color: var(--cu-muted);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: var(--cu-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    margin-bottom: 10px;
+}
+
+.btn-whatsapp:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+}

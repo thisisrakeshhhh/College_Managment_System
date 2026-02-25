@@ -1,11 +1,14 @@
 :root {
-    /* Premium Color Palette - Inspired by Eskooly/Modern SaaS */
-    --primary: #4f46e5;
-    --primary-light: #818cf8;
-    --primary-dark: #3730a3;
-    --secondary: #7c3aed;
-    --secondary-light: #a78bfa;
+    /* Tech Blue Palette - Inspired by React */
+    --primary: #00d8ff;
+    /* React Cyan */
+    --primary-light: #61dafb;
+    --primary-dark: #008eb3;
+    --secondary: #0f172a;
+    /* Deep Navy */
+    --secondary-light: #1e293b;
     --accent: #0ea5e9;
+    /* Sky Blue */
 
     /* Semantic Colors */
     --success: #10b981;
@@ -30,7 +33,7 @@
     --glass: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(255, 255, 255, 0.2);
 
-    /* Shadows - Deep and Soft for Premium Feel */
+    /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);

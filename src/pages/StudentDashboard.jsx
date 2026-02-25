@@ -37,6 +37,7 @@ import LessonPlanner from './communication/LessonPlanner';
 // Leave Components
 import ApplyLeave from './leave/ApplyLeave';
 import LeaveDetail from './leave/LeaveDetail';
+import EarlyLeave from './leave/EarlyLeave';
 import FixAppt from './leave/FixAppt';
 import MyAppt from './leave/MyAppt';
 
@@ -51,6 +52,7 @@ import Gems from './support/Gems';
 import Newsletter from './support/Newsletter';
 import PrincipalsDesk from './support/PrincipalsDesk';
 import StarFacilitator from './support/StarFacilitator';
+import ExtraSupport from './support/ExtraSupport';
 import { Exuberant, Victorious, Performer } from './support/Achievements';
 
 // This configuration object stores the titles for all our sub-pages.
@@ -71,6 +73,7 @@ const CONFIG = {
         lessonplanner: "Lesson Planner",
         applyleave: "Apply Leave",
         leavedetail: "Leave Detail",
+        earlyleave: "Early Leave",
         fixappointment: "Fix Appt",
         myappointment: "My Appt",
         mygreetings: "Greetings",
@@ -191,6 +194,7 @@ const StudentDashboard = () => {
         'lessonplanner': <LessonPlanner />,
         'applyleave': <ApplyLeave />,
         'leavedetail': <LeaveDetail />,
+        'earlyleave': <EarlyLeave />,
         'fixappointment': <FixAppt />,
         'myappointment': <MyAppt />,
         'mygreetings': <Greetings />,
@@ -201,6 +205,7 @@ const StudentDashboard = () => {
         'newsletter': <Newsletter />,
         'principal': <PrincipalsDesk />,
         'starfacilitator': <StarFacilitator />,
+        'contact': <ExtraSupport />,
         'exuberant': <Exuberant />,
         'victorious': <Victorious />,
         'performeroftheweek': <Performer />
@@ -434,6 +439,7 @@ const StudentDashboard = () => {
                             <ul className="submenu accordion-content">
                                 <li className={`submenu-item ${activeRoute === 'applyleave' ? 'active' : ''}`} onClick={() => loadRoute('applyleave')}>Apply Leave</li>
                                 <li className={`submenu-item ${activeRoute === 'leavedetail' ? 'active' : ''}`} onClick={() => loadRoute('leavedetail')}>Leave Detail</li>
+                                <li className={`submenu-item ${activeRoute === 'earlyleave' ? 'active' : ''}`} onClick={() => loadRoute('earlyleave')}>Early Leave</li>
                                 <li className={`submenu-item ${activeRoute === 'fixappointment' ? 'active' : ''}`} onClick={() => loadRoute('fixappointment')}>Fix Appointment</li>
                                 <li className={`submenu-item ${activeRoute === 'myappointment' ? 'active' : ''}`} onClick={() => loadRoute('myappointment')}>My Appointments</li>
                             </ul>
