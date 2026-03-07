@@ -37,7 +37,7 @@ const newsItems = [
     { category: "Achievement", date: "Feb 2026", title: "ST. XAVIER'S Bags AI- First Organisation Award at the Republic AI Summit & Awards 2026", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&q=80" },
     { category: "Sports", date: "Jan 2026", title: "ST. XAVIER'S wins Inter- University North Zone Youth Championship — Five consecutive times!", img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400&q=80" },
     { category: "Placements", date: "Jan 2026", title: "ST. XAVIER'S sets national record: 70 EPAM placement offers at 8 LPA in a single campus drive", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&q=80" },
-    { category: "Innovation", date: "Dec 2025", title: "India First AI Fest 2026 launched at ST. XAVIER'S to empower young innovators for a better tomorrow", img: "https://images.unsplash.com/photo-16207129435343-bcc4688e7485?w=400&q=80" },
+    { category: "Innovation", date: "Dec 2025", title: "India First AI Fest 2026 launched at ST. XAVIER'S to empower young innovators for a better tomorrow", img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&q=80" },
 ];
 
 const admissionSteps = [
@@ -171,14 +171,14 @@ const LandingPage = () => {
             sub: "ST. XAVIER'S INSTITUTE OF TECHNOLOGY — Shaping the Leaders of Tomorrow",
         },
         {
-            image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80',
+            image: 'https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?w=1400&q=80',
             badge: '🏆 NAAC A+ Accredited',
             title: 'World-Class Research &',
             highlight: 'Global Opportunities',
             sub: 'Join 32,000+ students from 68 countries in a transformative educational journey',
         },
         {
-            image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1400&q=80',
+            image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&q=80',
             badge: '💼 900+ Recruiting Companies',
             title: 'Guaranteed Placements at',
             highlight: 'Top MNCs & Startups',
@@ -235,7 +235,7 @@ const LandingPage = () => {
                     </div>
                     <div className="cu-strip-right">
                         <a href="tel:+911800000999"><i className="fas fa-phone-alt"></i> 1800 000 9999</a>
-                        <a href="mailto:info@sxit.edu"><i className="fas fa-envelope"></i> info@sxit.edu</a>
+                        <a href="mailto:contact@sxit-pune.edu"><i className="fas fa-envelope"></i> contact@sxit-pune.edu</a>
                     </div>
                 </div>
             </div>
@@ -245,7 +245,7 @@ const LandingPage = () => {
                 <div className="cu-nav-inner">
                     {/* Brand */}
                     <div className="cu-brand" onClick={() => { setMobileMenuOpen(false); window.scrollTo(0, 0); }}>
-                        <img src={reactLogo} alt="ST. XAVIER'S Logo" className="cu-logo-spin" />
+                        <img src={reactLogo} alt="ST. XAVIER'S Logo" className="cu-logo" />
                         <div className="cu-brand-text">
                             <span className="cu-brand-name">ST. XAVIER'S</span>
                             <span className="cu-brand-sub">INSTITUTE OF TECHNOLOGY</span>
@@ -433,7 +433,7 @@ const LandingPage = () => {
                     <div className="cu-why-inner">
                         <div className="cu-why-images cu-reveal">
                             <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80" alt="Campus" className="cu-why-img1" />
-                            <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&q=80" alt="Students" className="cu-why-img2" />
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&q=80" alt="Students Collaborating" className="cu-why-img2" />
                             <div className="cu-why-badge">
                                 <strong>32,000+</strong>
                                 <span>Happy Students</span>
@@ -465,7 +465,7 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            {/* ── ADMISSIONS STEPS ── */}
+            {/* ── ADMISSIONS FLOWCHART ── */}
             <section className="cu-admissions" id="admissions">
                 <div className="cu-container">
                     <div className="cu-section-head cu-reveal">
@@ -473,21 +473,36 @@ const LandingPage = () => {
                         <h2>Your Path to <span>ST. XAVIER'S</span></h2>
                         <p>Joining St. Xavier's is easy. Follow these four steps to secure your seat in our prestigious programs.</p>
                     </div>
-                    <div className="cu-admission-steps">
+
+                    {/* Flowchart */}
+                    <div className="cu-flowchart cu-reveal">
+                        {/* Connecting line */}
+                        <div className="cu-flowchart-line"></div>
+
                         {admissionSteps.map((s, i) => (
-                            <div key={i} className="cu-admission-step cu-reveal">
-                                <div className="cu-step-number">{s.step}</div>
-                                <div className="cu-step-icon">
-                                    <i className={`fas ${s.icon}`}></i>
+                            <div key={i} className="cu-flow-step">
+                                {/* Circle node */}
+                                <div className="cu-flow-node">
+                                    <div className="cu-flow-circle">
+                                        <i className={`fas ${s.icon}`}></i>
+                                    </div>
+                                    <div className="cu-flow-num">{s.step}</div>
                                 </div>
-                                <h3>{s.title}</h3>
-                                <p>{s.desc}</p>
+                                {/* Card below */}
+                                <div className="cu-flow-card">
+                                    <h3>{s.title}</h3>
+                                    <p>{s.desc}</p>
+                                </div>
+                                {/* Arrow connector (except last) */}
                                 {i < admissionSteps.length - 1 && (
-                                    <div className="cu-step-arrow"><i className="fas fa-chevron-right"></i></div>
+                                    <div className="cu-flow-connector">
+                                        <i className="fas fa-chevron-right"></i>
+                                    </div>
                                 )}
                             </div>
                         ))}
                     </div>
+
                     <div className="cu-admission-bottom cu-reveal">
                         <div className="cu-admission-info">
                             <i className="fas fa-calendar-check"></i>
@@ -511,21 +526,28 @@ const LandingPage = () => {
                         <h2>Experience <span>Campus Life</span></h2>
                         <p>300+ acres of lush campus with world-class facilities for sports, arts, research, and more.</p>
                     </div>
-                    <div className="cu-campus-grid cu-reveal">
-                        <div className="cu-campus-main">
-                            <img src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=700&q=80" alt="Campus Main" />
-                            <div className="cu-campus-label">300-Acre Residential Campus</div>
+                    <div className="cu-campus-mosaic cu-reveal">
+                        {/* Big hero image */}
+                        <div className="cu-campus-hero">
+                            <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=900&q=80" alt="Campus Main" />
+                            <div className="cu-campus-overlay">
+                                <span className="cu-campus-badge"><i className="fas fa-map-marker-alt"></i> 300-Acre Residential Campus</span>
+                            </div>
                         </div>
-                        <div className="cu-campus-side">
+                        {/* 4-cell grid */}
+                        <div className="cu-campus-tiles">
                             {[
-                                { img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80', label: 'Sports Complex' },
-                                { img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80', label: 'Innovation Hub' },
-                                { img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&q=80', label: 'Research Labs' },
-                                { img: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&q=80', label: 'Library & Learning Center' },
+                                { img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&q=80', label: 'Sports Complex', icon: 'fa-dumbbell' },
+                                { img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80', label: 'Innovation Hub', icon: 'fa-lightbulb' },
+                                { img: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&q=80', label: 'Research Labs', icon: 'fa-flask' },
+                                { img: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&q=80', label: 'Library & Learning Center', icon: 'fa-book-open' },
                             ].map((c, i) => (
-                                <div key={i} className="cu-campus-small">
+                                <div key={i} className="cu-campus-tile">
                                     <img src={c.img} alt={c.label} />
-                                    <div className="cu-campus-label">{c.label}</div>
+                                    <div className="cu-tile-label">
+                                        <i className={`fas ${c.icon}`}></i>
+                                        <span>{c.label}</span>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -689,7 +711,7 @@ const LandingPage = () => {
                     <div className="cu-footer-grid">
                         <div className="cu-footer-brand">
                             <div className="cu-footer-logo">
-                                <img src={reactLogo} alt="ST. XAVIER'S" className="cu-logo-spin" style={{ width: '36px' }} />
+                                <img src={reactLogo} alt="ST. XAVIER'S" className="cu-logo" style={{ width: '36px' }} />
                                 <div>
                                     <strong>ST. XAVIER'S</strong>
                                     <small>INSTITUTE OF TECHNOLOGY</small>
@@ -716,9 +738,9 @@ const LandingPage = () => {
                         </div>
                         <div className="cu-footer-col">
                             <h4>Contact Us</h4>
-                            <p><i className="fas fa-map-marker-alt"></i> Tech Boulevard, Knowledge City, Punjab – 140413</p>
+                            <p><i className="fas fa-map-marker-alt"></i> 42, Innovation Park, Hinjewadi Phase 1, Pune, Maharashtra – 411057</p>
                             <p><i className="fas fa-phone"></i> 1800 000 9999 (Toll Free)</p>
-                            <p><i className="fas fa-envelope"></i> info@sxit.edu</p>
+                            <p><i className="fas fa-envelope"></i> contact@sxit-pune.edu</p>
                             <button className="cu-btn-primary" style={{ marginTop: '16px', width: '100%' }} onClick={() => setIsLoginOpen(true)}>
                                 Student Login
                             </button>

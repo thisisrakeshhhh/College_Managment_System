@@ -4,27 +4,37 @@
    ========================================================= */
 
 /* ── IMPORTS ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap');
 
 /* ── VARIABLES ── */
 :root {
     --cu-primary: #1a3c8f;
-    --cu-primary-dark: #0d2260;
+    --cu-primary-dark: #0a1f5e;
     --cu-primary-light: #2a5ac5;
     --cu-accent: #0066cc;
+    --cu-accent2: #00b4d8;
     --cu-white: #ffffff;
-    --cu-light: #f0f4ff;
-    --cu-text: #1e293b;
+    --cu-light: #eef2ff;
+    --cu-light2: #f8faff;
+    --cu-text: #0f172a;
+    --cu-text2: #334155;
     --cu-muted: #64748b;
-    --cu-border: #e2e8f0;
+    --cu-border: #dde4f0;
     --cu-gold: #f59e0b;
-    --cu-navbar-h: 70px;
-    --cu-strip-h: 36px;
-    --cu-radius: 16px;
-    --cu-shadow: 0 10px 30px -10px rgba(26, 60, 143, 0.15);
-    --cu-shadow-lg: 0 20px 50px -15px rgba(26, 60, 143, 0.25);
-    --cu-transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    --cu-glass: rgba(255, 255, 255, 0.08);
+    --cu-gold-dark: #d97706;
+    --cu-navbar-h: 72px;
+    --cu-strip-h: 38px;
+    --cu-radius: 18px;
+    --cu-radius-sm: 10px;
+    --cu-shadow: 0 8px 32px -8px rgba(26, 60, 143, 0.18);
+    --cu-shadow-lg: 0 24px 56px -12px rgba(26, 60, 143, 0.28);
+    --cu-shadow-xl: 0 40px 80px -20px rgba(10, 31, 94, 0.35);
+    --cu-transition: all 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+    --cu-glass: rgba(255, 255, 255, 0.07);
+    --cu-glass-border: rgba(255, 255, 255, 0.15);
+    --cu-grad-primary: linear-gradient(135deg, #1a3c8f 0%, #0066cc 100%);
+    --cu-grad-dark: linear-gradient(135deg, #0a1f5e 0%, #1a3c8f 100%);
+    --cu-grad-gold: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
 }
 
 * {
@@ -37,19 +47,26 @@
     font-family: 'Inter', sans-serif;
     color: var(--cu-text);
     overflow-x: hidden;
+    background: #fff;
+}
+
+.cu-landing *,
+.cu-landing *::before,
+.cu-landing *::after {
+    box-sizing: border-box;
 }
 
 .cu-container {
-    max-width: 1200px;
+    max-width: 1220px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 28px;
 }
 
 /* ── SCROLL REVEAL ── */
 .cu-reveal {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(36px);
+    transition: opacity 0.75s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .cu-reveal.cu-visible {
@@ -59,9 +76,10 @@
 
 /* ── TOP STRIP ── */
 .cu-top-strip {
-    background: var(--cu-primary-dark);
+    background: linear-gradient(90deg, #060f2e 0%, #0a1f5e 40%, #0d2a7a 100%);
     height: var(--cu-strip-h);
     overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .cu-strip-inner {
@@ -83,8 +101,10 @@
 
 .cu-marquee span {
     display: inline-block;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 12px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
     animation: cu-marquee 30s linear infinite;
 }
 
@@ -105,17 +125,21 @@
 }
 
 .cu-strip-right a {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-    font-size: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 5px;
-    transition: color 0.2s;
+    transition: color 0.25s;
+    padding: 3px 8px;
+    border-radius: 4px;
 }
 
 .cu-strip-right a:hover {
     color: white;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 /* ── NAVBAR ── */
@@ -123,13 +147,17 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: var(--cu-primary);
+    background: linear-gradient(90deg, #1a3c8f 0%, #1e4db5 50%, #1a3c8f 100%);
     transition: var(--cu-transition);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cu-navbar-scrolled {
-    background: var(--cu-primary-dark);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    background: rgba(8, 20, 65, 0.97);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cu-nav-inner {
@@ -151,10 +179,10 @@
 }
 
 .cu-logo-spin {
-    width: 40px;
-    height: 40px;
-    animation: cu-spin 8s linear infinite;
-    filter: drop-shadow(0 0 6px rgba(0, 216, 255, 0.4));
+    width: 42px;
+    height: 42px;
+    animation: cu-spin 10s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(96, 192, 255, 0.55));
 }
 
 @keyframes cu-spin {
@@ -173,20 +201,21 @@
 
 .cu-brand-name {
     display: block;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    font-weight: 900;
+    font-family: 'Outfit', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
     color: white;
-    letter-spacing: -0.5px;
+    letter-spacing: 0.3px;
     white-space: nowrap;
+    text-shadow: 0 0 20px rgba(96, 192, 255, 0.3);
 }
 
 .cu-brand-sub {
     display: block;
-    font-size: 9px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.65);
-    letter-spacing: 1.5px;
+    font-size: 8.5px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 2px;
     text-transform: uppercase;
 }
 
@@ -225,17 +254,17 @@
 /* Dropdown */
 .cu-dropdown {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 10px);
     left: 0;
     background: white;
     border-radius: var(--cu-radius);
-    box-shadow: var(--cu-shadow-lg);
-    min-width: 220px;
-    padding: 8px 0;
+    box-shadow: 0 20px 60px -10px rgba(10, 31, 94, 0.3), 0 0 0 1px rgba(26, 60, 143, 0.08);
+    min-width: 230px;
+    padding: 8px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-8px);
-    transition: var(--cu-transition);
+    transform: translateY(-10px) scale(0.97);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
     z-index: 999;
     border-top: 3px solid var(--cu-primary);
 }
@@ -243,22 +272,24 @@
 .cu-nav-item:hover .cu-dropdown {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 .cu-dropdown a {
     display: block;
-    padding: 9px 18px;
-    color: var(--cu-text);
+    padding: 9px 14px;
+    color: var(--cu-text2);
     text-decoration: none;
     font-size: 13px;
-    transition: var(--cu-transition);
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s, padding-left 0.2s;
 }
 
 .cu-dropdown a:hover {
     background: var(--cu-light);
     color: var(--cu-primary);
-    padding-left: 24px;
+    padding-left: 20px;
 }
 
 /* CTA */
@@ -271,40 +302,43 @@
 
 .cu-btn-login {
     background: transparent;
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
     color: white;
-    padding: 8px 18px;
-    border-radius: 6px;
+    padding: 8px 20px;
+    border-radius: 8px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: var(--cu-transition);
     display: flex;
     align-items: center;
     gap: 6px;
+    letter-spacing: 0.2px;
 }
 
 .cu-btn-login:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: white;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-1px);
 }
 
 .cu-btn-apply {
-    background: var(--cu-gold);
+    background: var(--cu-grad-gold);
     border: none;
-    color: #1a1a1a;
-    padding: 8px 20px;
-    border-radius: 6px;
+    color: #1a0a00;
+    padding: 9px 22px;
+    border-radius: 8px;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
     transition: var(--cu-transition);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.5);
+    letter-spacing: 0.3px;
 }
 
 .cu-btn-apply:hover {
-    background: #e08c00;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.6);
 }
 
 .cu-hamburger {
@@ -407,7 +441,11 @@
 .cu-hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(105deg, rgba(10, 24, 80, 0.88) 30%, rgba(10, 24, 80, 0.5) 70%, rgba(10, 24, 80, 0.3) 100%);
+    background: linear-gradient(110deg,
+            rgba(6, 15, 55, 0.92) 0%,
+            rgba(10, 30, 90, 0.75) 45%,
+            rgba(10, 30, 90, 0.4) 70%,
+            rgba(10, 30, 90, 0.2) 100%);
 }
 
 .cu-hero-content {
@@ -421,30 +459,62 @@
 }
 
 .cu-hero-badge {
-    display: inline-block;
-    background: var(--cu-gold);
-    color: #1a1a1a;
-    padding: 6px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--cu-grad-gold);
+    color: #1a0a00;
+    padding: 7px 20px;
     border-radius: 50px;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 11.5px;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
+    letter-spacing: 1.5px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+    animation: badge-pulse 3s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 4px 32px rgba(245, 158, 11, 0.7);
+    }
 }
 
 .cu-hero-content h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(32px, 6vw, 64px);
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(34px, 6vw, 68px);
     font-weight: 900;
     color: white;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    letter-spacing: -1px;
+    line-height: 1.08;
+    margin-bottom: 22px;
+    letter-spacing: -1.5px;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.3);
 }
 
 .cu-hero-highlight {
-    color: #60c0ff;
+    color: transparent;
+    background: linear-gradient(90deg, #60d0ff 0%, #a78bfa 60%, #60d0ff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shine-text 4s linear infinite;
+}
+
+@keyframes shine-text {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
 }
 
 .cu-hero-content p {
@@ -463,42 +533,56 @@
 }
 
 .cu-btn-primary {
-    background: linear-gradient(135deg, var(--cu-primary), var(--cu-accent));
+    background: var(--cu-grad-primary);
     color: white;
     border: none;
-    padding: 14px 28px;
-    border-radius: 8px;
+    padding: 15px 30px;
+    border-radius: 10px;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
     transition: var(--cu-transition);
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 6px 20px rgba(26, 60, 143, 0.4);
+    gap: 9px;
+    box-shadow: 0 6px 24px rgba(26, 60, 143, 0.45);
     text-decoration: none;
+    letter-spacing: 0.2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cu-btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+    pointer-events: none;
 }
 
 .cu-btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(26, 60, 143, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(26, 60, 143, 0.55);
 }
 
 .cu-btn-ghost {
     background: rgba(255, 255, 255, 0.1);
     color: white;
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    padding: 14px 28px;
-    border-radius: 8px;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    padding: 15px 30px;
+    border-radius: 10px;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: var(--cu-transition);
     text-decoration: none;
+    backdrop-filter: blur(8px);
 }
 
 .cu-btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.22);
+    border-color: white;
+    transform: translateY(-2px);
 }
 
 .cu-hero-dots {
@@ -514,16 +598,17 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.35);
     border: none;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
 }
 
 .cu-hero-dot.active {
-    width: 28px;
+    width: 32px;
     border-radius: 4px;
-    background: var(--cu-gold);
+    background: var(--cu-grad-gold);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
 }
 
 .cu-scroll-hint {
@@ -549,29 +634,45 @@
 
 /* ── STATS BAR ── */
 .cu-stats-bar {
-    background: var(--cu-primary);
+    background: var(--cu-grad-dark);
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    position: relative;
+    overflow: hidden;
+}
+
+.cu-stats-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(96, 192, 255, 0.08) 0%, transparent 60%);
+    pointer-events: none;
 }
 
 .cu-stat-card {
-    padding: 28px 40px;
+    padding: 30px 44px;
     text-align: center;
     position: relative;
     flex: 1;
     min-width: 140px;
+    transition: background 0.3s;
+}
+
+.cu-stat-card:hover {
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .cu-stat-card::after {
     content: '';
     position: absolute;
     right: 0;
-    top: 20%;
-    bottom: 20%;
+    top: 22%;
+    bottom: 22%;
     width: 1px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .cu-stat-card:last-child::after {
@@ -579,49 +680,69 @@
 }
 
 .cu-stat-value {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(22px, 3vw, 34px);
-    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 900;
     color: white;
     line-height: 1;
+    letter-spacing: -0.5px;
 }
 
 .cu-stat-label {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.72);
-    margin-top: 6px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 7px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 500;
+    letter-spacing: 1.5px;
+    font-weight: 600;
 }
 
 /* ── ACHIEVEMENTS ── */
 .cu-achievements {
-    background: white;
-    padding: 30px 0;
+    background: var(--cu-light2);
+    padding: 32px 0;
     border-bottom: 1px solid var(--cu-border);
 }
 
 .cu-achievements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
+    gap: 14px;
 }
 
 .cu-achievement-card {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 18px 22px;
-    background: var(--cu-light);
-    border-radius: 10px;
+    gap: 16px;
+    padding: 20px 24px;
+    background: white;
+    border-radius: 14px;
+    border-left: 4px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(135deg, var(--cu-primary) 0%, var(--cu-accent2) 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    border: 1.5px solid transparent;
     border-left: 4px solid var(--cu-primary);
+    box-shadow: 0 2px 16px rgba(26, 60, 143, 0.07);
+    transition: var(--cu-transition);
+}
+
+.cu-achievement-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(26, 60, 143, 0.13);
 }
 
 .cu-achievement-card i {
-    font-size: 22px;
+    font-size: 24px;
     color: var(--cu-primary);
     flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--cu-light);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cu-achievement-card strong {
@@ -639,28 +760,31 @@
 /* ── SECTION HEADER ── */
 .cu-section-head {
     text-align: center;
-    margin-bottom: 52px;
+    margin-bottom: 56px;
 }
 
 .cu-tag {
     display: inline-block;
     background: var(--cu-light);
     color: var(--cu-primary);
-    padding: 5px 16px;
+    padding: 5px 18px;
     border-radius: 50px;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(26, 60, 143, 0.15);
 }
 
 .cu-section-head h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(24px, 3.5vw, 38px);
-    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(26px, 3.5vw, 42px);
+    font-weight: 900;
     color: var(--cu-text);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    letter-spacing: -1px;
+    line-height: 1.15;
 }
 
 .cu-section-head h2 span {
@@ -672,70 +796,97 @@
     color: var(--cu-muted);
     max-width: 560px;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 /* ── PROGRAMS ── */
 .cu-programs {
-    padding: 90px 0;
-    background: var(--cu-light);
+    padding: 100px 0;
+    background: var(--cu-light2);
 }
 
 .cu-programs-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(252px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(258px, 1fr));
     gap: 24px;
 }
 
 .cu-program-card {
     background: white;
-    border-radius: 16px;
-    padding: 32px 28px;
+    border-radius: 20px;
+    padding: 34px 28px;
     transition: var(--cu-transition);
     border-bottom: 4px solid var(--card-color, var(--cu-primary));
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.cu-program-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, var(--card-color, var(--cu-primary)) 0%, transparent 70%);
+    opacity: 0.05;
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+    transition: opacity 0.3s;
 }
 
 .cu-program-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
     box-shadow: var(--cu-shadow-lg);
 }
 
+.cu-program-card:hover::before {
+    opacity: 0.1;
+}
+
 .cu-program-icon {
-    width: 58px;
-    height: 58px;
+    width: 62px;
+    height: 62px;
     background: var(--card-color, var(--cu-primary));
-    border-radius: 14px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transition: var(--cu-transition);
+}
+
+.cu-program-card:hover .cu-program-icon {
+    transform: scale(1.1) rotate(-5deg);
 }
 
 .cu-program-icon i {
-    font-size: 24px;
+    font-size: 26px;
     color: white;
 }
 
 .cu-program-card h3 {
-    font-weight: 700;
+    font-weight: 800;
     font-size: 16px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     color: var(--cu-text);
+    letter-spacing: -0.3px;
 }
 
 .cu-program-card p {
     font-size: 13px;
     color: var(--cu-muted);
-    margin-bottom: 18px;
-    line-height: 1.5;
+    margin-bottom: 20px;
+    line-height: 1.55;
 }
 
 .cu-program-link {
     color: var(--card-color, var(--cu-primary));
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -744,7 +895,7 @@
 }
 
 .cu-program-link:hover {
-    gap: 10px;
+    gap: 12px;
 }
 
 /* ── WHY CHOOSE US ── */
@@ -809,10 +960,12 @@
 }
 
 .cu-why-text h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(22px, 2.5vw, 34px);
-    font-weight: 800;
-    margin: 12px 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(24px, 2.8vw, 38px);
+    font-weight: 900;
+    margin: 14px 0;
+    letter-spacing: -0.8px;
+    line-height: 1.2;
 }
 
 .cu-why-text h2 span {
@@ -838,13 +991,27 @@
     align-items: center;
     gap: 12px;
     font-size: 14px;
-    color: var(--cu-text);
+    color: var(--cu-text2);
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.cu-why-point:hover {
+    background: var(--cu-light);
 }
 
 .cu-why-point i {
     color: var(--cu-primary);
     font-size: 16px;
     flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--cu-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ── CAMPUS LIFE ── */
@@ -918,7 +1085,7 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-top: 16px;
+    margin-top: 20px;
 }
 
 .cu-campus-feature {
@@ -930,8 +1097,16 @@
     border-radius: 50px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--cu-text);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    color: var(--cu-text2);
+    box-shadow: 0 2px 12px rgba(26, 60, 143, 0.08);
+    border: 1px solid var(--cu-border);
+    transition: var(--cu-transition);
+}
+
+.cu-campus-feature:hover {
+    background: var(--cu-light);
+    border-color: rgba(26, 60, 143, 0.2);
+    transform: translateY(-2px);
 }
 
 .cu-campus-feature i {
@@ -1030,8 +1205,8 @@
 
 /* ── TESTIMONIALS ── */
 .cu-testimonials {
-    padding: 90px 0;
-    background: white;
+    padding: 100px 0;
+    background: var(--cu-light2);
 }
 
 .cu-testimonials-grid {
@@ -1042,55 +1217,60 @@
 
 .cu-testimonial-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 22px;
     padding: 40px;
     position: relative;
     transition: var(--cu-transition);
     border: 1px solid var(--cu-border);
-    box-shadow: var(--cu-shadow);
+    box-shadow: 0 4px 20px rgba(26, 60, 143, 0.07);
 }
 
 .cu-testimonial-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     box-shadow: var(--cu-shadow-lg);
+    border-color: rgba(26, 60, 143, 0.15);
 }
 
 .cu-quote-icon {
-    width: 40px;
-    height: 40px;
-    background: var(--cu-primary);
-    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    background: var(--cu-grad-primary);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(26, 60, 143, 0.3);
 }
 
 .cu-quote-icon i {
     color: white;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .cu-testimonial-card>p {
     font-size: 14.5px;
-    color: var(--cu-text);
-    line-height: 1.8;
-    margin-bottom: 24px;
+    color: var(--cu-text2);
+    line-height: 1.85;
+    margin-bottom: 26px;
     font-style: italic;
 }
 
 .cu-testimonial-author {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cu-border);
 }
 
 .cu-testimonial-author img {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--cu-primary);
+    border: 2.5px solid var(--cu-primary);
+    box-shadow: 0 0 0 4px var(--cu-light);
 }
 
 .cu-testimonial-author strong {
@@ -1103,33 +1283,48 @@
 .cu-testimonial-author span {
     font-size: 12px;
     color: var(--cu-muted);
+    line-height: 1.4;
 }
 
 /* ── CTA BANNER ── */
 .cu-cta-banner {
-    background: linear-gradient(135deg, white 0%, var(--cu-light) 100%);
+    background: linear-gradient(135deg, #0a1f5e 0%, #1a3c8f 40%, #0d5095 70%, #0a3060 100%);
     padding: 120px 0;
     text-align: center;
-    border-top: 1px solid var(--cu-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.cu-cta-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(96, 192, 255, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(167, 139, 250, 0.1) 0%, transparent 60%);
+    pointer-events: none;
 }
 
 .cu-cta-banner h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(22px, 3.5vw, 40px);
-    font-weight: 800;
-    color: var(--cu-text);
-    margin-bottom: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(24px, 4vw, 48px);
+    font-weight: 900;
+    color: white;
+    margin-bottom: 14px;
+    letter-spacing: -1px;
+    position: relative;
 }
 
 .cu-cta-banner h2 span {
-    color: var(--cu-primary);
+    color: var(--cu-gold);
+    text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
 }
 
 .cu-cta-banner p {
-    font-size: 16px;
-    color: var(--cu-muted);
-    max-width: 560px;
-    margin: 0 auto 32px;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 540px;
+    margin: 0 auto 36px;
+    position: relative;
 }
 
 .cu-cta-btns {
@@ -1137,14 +1332,15 @@
     gap: 16px;
     justify-content: center;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .cu-btn-ghost-dark {
-    background: white;
-    color: var(--cu-primary);
-    border: 2px solid var(--cu-primary);
-    padding: 14px 28px;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    padding: 15px 30px;
+    border-radius: 10px;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
@@ -1153,52 +1349,68 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    backdrop-filter: blur(8px);
 }
 
 .cu-btn-ghost-dark:hover {
-    background: var(--cu-primary);
-    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    transform: translateY(-2px);
 }
 
 /* ── FOOTER ── */
 .cu-footer {
-    background: var(--cu-primary-dark);
-    padding: 70px 0 0;
+    background: linear-gradient(180deg, #060f2e 0%, #0a1840 100%);
+    padding: 80px 0 0;
+    position: relative;
+}
+
+.cu-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--cu-grad-primary);
 }
 
 .cu-footer-grid {
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr 1fr 1.4fr;
-    gap: 36px;
-    padding-bottom: 50px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 40px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cu-footer-logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
+    gap: 12px;
+    margin-bottom: 18px;
 }
 
 .cu-footer-logo strong {
     display: block;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 800;
     color: white;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 0.3px;
 }
 
 .cu-footer-logo small {
     font-size: 9px;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .cu-footer-brand p {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.55);
-    line-height: 1.8;
-    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.85;
+    margin-bottom: 22px;
 }
 
 .cu-social {
@@ -1207,14 +1419,15 @@
 }
 
 .cu-social a {
-    width: 34px;
-    height: 34px;
-    background: rgba(255, 255, 255, 0.08);
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.07);
     border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.55);
     font-size: 14px;
     text-decoration: none;
     transition: var(--cu-transition);
@@ -1222,22 +1435,28 @@
 
 .cu-social a:hover {
     background: var(--cu-accent);
+    border-color: var(--cu-accent);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
 }
 
 .cu-footer-col h4 {
     color: white;
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 18px;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--cu-accent);
     display: inline-block;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Outfit', sans-serif;
 }
 
 .cu-footer-col a {
     display: block;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.48);
     text-decoration: none;
     font-size: 13px;
     padding: 4px 0;
@@ -1245,13 +1464,13 @@
 }
 
 .cu-footer-col a:hover {
-    color: white;
-    padding-left: 4px;
+    color: rgba(255, 255, 255, 0.9);
+    padding-left: 6px;
 }
 
 .cu-footer-col p {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.48);
     padding: 4px 0;
     display: flex;
     align-items: flex-start;
@@ -1260,12 +1479,12 @@
 
 .cu-footer-col p i {
     margin-top: 2px;
-    color: var(--cu-accent);
+    color: var(--cu-accent2);
     flex-shrink: 0;
 }
 
 .cu-footer-bottom {
-    padding: 18px 0;
+    padding: 20px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1275,7 +1494,7 @@
 
 .cu-footer-bottom span {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.28);
 }
 
 .cu-footer-links {
@@ -1285,12 +1504,13 @@
 
 .cu-footer-links a {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.28);
     text-decoration: none;
+    transition: color 0.2s;
 }
 
 .cu-footer-links a:hover {
-    color: white;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 /* ── LOGIN MODAL (keep working) ── */
@@ -1416,7 +1636,13 @@
 }
 
 /* ── RESPONSIVE ── */
+
+/* ── 1024px — Tablet Landscape ── */
 @media (max-width: 1024px) {
+    .cu-container {
+        padding: 0 20px;
+    }
+
     .cu-nav-links {
         display: none;
     }
@@ -1429,8 +1655,13 @@
         display: none;
     }
 
-    .cu-footer-grid {
-        grid-template-columns: 1fr 1fr;
+    .cu-hero {
+        height: 80vh;
+        min-height: 500px;
+    }
+
+    .cu-programs-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     }
 
     .cu-why-inner {
@@ -1438,18 +1669,123 @@
         gap: 40px;
     }
 
+    .cu-why-images {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .cu-research-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .cu-research-card-grid {
+        position: static;
+        margin-top: 20px;
+    }
+
+    .cu-research-bg-img {
+        height: 280px;
+    }
+
+    .cu-global-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
     .cu-placement-stats {
         grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .cu-testimonials-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .cu-footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+
+    /* Campus mosaic: single column at tablet */
+    .cu-campus-mosaic {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .cu-campus-hero {
+        min-height: 320px;
+    }
+
+    .cu-campus-tiles {
+        grid-template-rows: 160px 160px;
     }
 }
 
+/* ── 900px — Tablet Portrait ── */
+@media (max-width: 900px) {
+    .cu-programs {
+        padding: 70px 0;
+    }
+
+    .cu-why,
+    .cu-campus,
+    .cu-global {
+        padding: 80px 0;
+    }
+
+    .cu-placements,
+    .cu-testimonials,
+    .cu-news {
+        padding: 80px 0;
+    }
+
+    .cu-cta-banner {
+        padding: 80px 0;
+    }
+
+    .cu-section-head {
+        margin-bottom: 40px;
+    }
+
+    .cu-admission-bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .cu-admission-info {
+        justify-content: center;
+    }
+}
+
+/* ── 768px — Mobile Landscape / Small Tablet ── */
 @media (max-width: 768px) {
     .cu-top-strip .cu-strip-right {
         display: none;
     }
 
     .cu-hero {
-        height: 70vh;
+        height: 68vh;
+        min-height: 420px;
+    }
+
+    .cu-hero-badge {
+        font-size: 10px;
+        padding: 5px 14px;
+    }
+
+    .cu-hero-content {
+        width: 95%;
+    }
+
+    .cu-hero-content h1 {
+        font-size: clamp(26px, 6vw, 44px);
+        letter-spacing: -0.5px;
+    }
+
+    .cu-hero-content p {
+        font-size: 14px;
     }
 
     .cu-stats-bar {
@@ -1457,29 +1793,128 @@
     }
 
     .cu-stat-card {
-        min-width: 45%;
+        min-width: 50%;
+        padding: 22px 20px;
     }
 
-    .cu-campus-grid {
+    .cu-stat-card::after {
+        display: none;
+    }
+
+    /* Why section */
+    .cu-why-img1 {
+        width: 100%;
+        height: 320px;
+    }
+
+    .cu-why-img2 {
+        width: 48%;
+        height: 180px;
+        bottom: -20px;
+        right: 4px;
+    }
+
+    .cu-why-badge {
+        top: 14px;
+        right: 4px;
+        padding: 10px 14px;
+    }
+
+    .cu-why-badge strong {
+        font-size: 18px;
+    }
+
+    /* Campus mosaic on mobile */
+    .cu-campus-mosaic {
         grid-template-columns: 1fr;
-        height: auto;
+        gap: 10px;
+        min-height: auto;
     }
 
-    .cu-campus-side {
+    .cu-campus-hero {
+        min-height: 260px;
+        border-radius: 14px;
+    }
+
+    .cu-campus-tiles {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: unset;
+        grid-template-rows: 150px 150px;
+        gap: 10px;
     }
 
-    .cu-campus-small {
-        height: 160px;
+    .cu-campus-tile {
+        border-radius: 10px;
     }
 
-    .cu-campus-main {
-        height: 280px;
+    /* Flowchart stacking */
+    .cu-flowchart {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
     }
 
+    .cu-flowchart-line,
+    .cu-flow-connector {
+        display: none;
+    }
+
+    .cu-campus-features {
+        gap: 8px;
+    }
+
+    .cu-campus-feature {
+        font-size: 12px;
+        padding: 8px 14px;
+    }
+
+    /* Placements */
+    .cu-placement-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .cu-placement-stat {
+        padding: 28px 16px;
+    }
+
+    /* News */
+    .cu-news-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    /* Programs */
+    .cu-programs-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    /* Testimonials */
+    .cu-testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Achievements */
+    .cu-achievements-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* CTA */
+    .cu-cta-btns {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cu-btn-primary,
+    .cu-btn-ghost-dark {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+    }
+
+    /* Footer */
     .cu-footer-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .cu-footer-col:not(:first-child) {
@@ -1494,20 +1929,127 @@
         margin-bottom: 30px;
     }
 
-    .cu-placement-stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
     .cu-footer-bottom {
         flex-direction: column;
         text-align: center;
     }
 }
 
-@media (max-width: 480px) {
-    .cu-hero-content h1 {
+/* ── 600px — Large Mobile ── */
+@media (max-width: 600px) {
+    :root {
+        --cu-navbar-h: 62px;
+    }
+
+    .cu-container {
+        padding: 0 16px;
+    }
+
+    .cu-programs {
+        padding: 60px 0;
+    }
+
+    .cu-why,
+    .cu-campus {
+        padding: 60px 0;
+    }
+
+    .cu-research,
+    .cu-admissions {
+        padding: 60px 0;
+    }
+
+    .cu-global,
+    .cu-placements,
+    .cu-testimonials,
+    .cu-news {
+        padding: 60px 0;
+    }
+
+    .cu-cta-banner {
+        padding: 60px 0;
+    }
+
+    .cu-section-head {
+        margin-bottom: 30px;
+    }
+
+    .cu-section-head p {
+        font-size: 14px;
+    }
+
+    .cu-programs-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .cu-news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-flags-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    .cu-global-flags {
+        padding: 24px 20px;
+    }
+
+    /* Placement stats compact */
+    .cu-placement-stat {
+        padding: 22px 12px;
+    }
+
+    .cu-placement-stat strong {
         font-size: 24px;
+    }
+
+    /* Research */
+    .cu-research-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cu-research-card-grid {
+        position: static;
+        margin-top: 16px;
+    }
+
+    .cu-research-bg-img {
+        height: 220px;
+    }
+
+    /* Flowchart: switch to 2-col at 600px, hide connecting line */
+    .cu-flowchart {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding-top: 0;
+    }
+
+    .cu-flowchart-line,
+    .cu-flow-connector {
+        display: none;
+    }
+}
+
+/* ── 480px — Mobile Portrait ── */
+@media (max-width: 480px) {
+    .cu-hero {
+        height: 60vh;
+        min-height: 380px;
+    }
+
+    .cu-hero-content h1 {
+        font-size: clamp(22px, 7vw, 32px);
+        letter-spacing: -0.3px;
+    }
+
+    .cu-hero-content p {
+        font-size: 13px;
     }
 
     .cu-hero-btns {
@@ -1515,17 +2057,35 @@
         align-items: center;
     }
 
+    .cu-btn-primary,
+    .cu-btn-ghost {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: 14px;
+    }
+
     .cu-stat-card {
         min-width: 100%;
         padding: 20px;
     }
 
-    .cu-stat-card::after {
-        display: none;
-    }
-
     .cu-programs-grid {
         grid-template-columns: 1fr;
+    }
+
+    .cu-flowchart {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .cu-campus-hero {
+        min-height: 220px;
+    }
+
+    .cu-campus-tiles {
+        grid-template-rows: 130px 130px;
     }
 
     .cu-testimonials-grid {
@@ -1536,14 +2096,6 @@
         grid-template-columns: 1fr;
     }
 
-    .cu-admission-steps {
-        grid-template-columns: 1fr;
-    }
-
-    .cu-step-arrow {
-        display: none;
-    }
-
     .cu-research-inner,
     .cu-global-inner {
         grid-template-columns: 1fr;
@@ -1551,6 +2103,86 @@
 
     .cu-flags-grid {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cu-placement-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cu-footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cu-testimonial-card {
+        padding: 28px 20px;
+    }
+
+    .cu-program-card {
+        padding: 24px 20px;
+    }
+
+    .cu-cta-banner h2 {
+        font-size: clamp(20px, 6vw, 30px);
+    }
+}
+
+/* ── 380px — Extra Small Mobile ── */
+@media (max-width: 380px) {
+    .cu-brand-name {
+        font-size: 14px;
+    }
+
+    .cu-brand-sub {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+
+    .cu-logo-spin {
+        width: 34px;
+        height: 34px;
+    }
+
+    .cu-hero {
+        height: 55vh;
+        min-height: 340px;
+    }
+
+    .cu-hero-content h1 {
+        font-size: 20px;
+    }
+
+    .cu-hero-badge {
+        font-size: 9px;
+        padding: 4px 12px;
+    }
+
+    .cu-why-img2 {
+        width: 44%;
+        height: 140px;
+    }
+
+    .cu-flags-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .cu-placement-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .cu-placement-stat {
+        padding: 18px 10px;
+    }
+
+    .cu-placement-stat strong {
+        font-size: 20px;
+    }
+
+    .cu-btn-primary,
+    .cu-btn-ghost-dark {
+        font-size: 13px;
+        padding: 12px 16px;
     }
 }
 
@@ -1700,122 +2332,162 @@
     color: var(--cu-muted);
 }
 
-/* ── ADMISSIONS STEPS ── */
+/* ── STATIC LOGO (no spin) ── */
+.cu-logo {
+    width: 42px;
+    height: 42px;
+    filter: drop-shadow(0 0 8px rgba(96, 192, 255, 0.55));
+}
+
+/* ── ADMISSIONS FLOWCHART ── */
 .cu-admissions {
     padding: 90px 0;
     background: white;
 }
 
-.cu-admission-steps {
+/* Flowchart container */
+.cu-flowchart {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    margin-bottom: 36px;
-}
-
-.cu-admission-step {
-    text-align: center;
-    padding: 36px 20px;
     position: relative;
-    background: var(--cu-light);
-    transition: var(--cu-transition);
+    margin-bottom: 40px;
+    padding: 20px 0 0;
 }
 
-.cu-admission-step:first-child {
-    border-radius: 16px 0 0 16px;
+/* The horizontal connecting line through all nodes */
+.cu-flowchart-line {
+    position: absolute;
+    top: 55px;
+    /* align with center of circles */
+    left: calc(12.5% + 0px);
+    right: calc(12.5% + 0px);
+    height: 3px;
+    background: linear-gradient(90deg, var(--cu-primary) 0%, var(--cu-accent) 50%, var(--cu-accent2) 100%);
+    z-index: 0;
+    border-radius: 2px;
 }
 
-.cu-admission-step:last-child {
-    border-radius: 0 16px 16px 0;
+/* Each step column */
+.cu-flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    padding: 0 12px;
 }
 
-.cu-admission-step:nth-child(even) {
-    background: white;
-    border: 2px solid var(--cu-border);
-    border-left: none;
-    border-right: none;
+/* The node: circle + number */
+.cu-flow-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+    position: relative;
 }
 
-.cu-admission-step:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--cu-shadow-lg);
-    z-index: 2;
-    border-radius: 12px;
-}
-
-.cu-step-number {
-    font-family: 'Poppins', sans-serif;
-    font-size: 44px;
-    font-weight: 900;
-    color: var(--cu-border);
-    line-height: 1;
-    margin-bottom: 10px;
-}
-
-.cu-step-icon {
-    width: 52px;
-    height: 52px;
-    background: var(--cu-primary);
-    border-radius: 14px;
+/* The circle icon */
+.cu-flow-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--cu-grad-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 14px;
-    box-shadow: 0 6px 18px rgba(26, 60, 143, 0.35);
+    box-shadow: 0 8px 28px rgba(26, 60, 143, 0.4), 0 0 0 6px rgba(26, 60, 143, 0.1);
+    transition: var(--cu-transition);
+    z-index: 2;
+    border: 3px solid white;
 }
 
-.cu-step-icon i {
-    font-size: 20px;
+.cu-flow-step:hover .cu-flow-circle {
+    transform: scale(1.12) translateY(-4px);
+    box-shadow: 0 14px 36px rgba(26, 60, 143, 0.5), 0 0 0 8px rgba(26, 60, 143, 0.12);
+}
+
+.cu-flow-circle i {
+    font-size: 24px;
     color: white;
 }
 
-.cu-admission-step h3 {
-    font-size: 15px;
-    font-weight: 700;
+/* Step number */
+.cu-flow-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    color: white;
+    background: var(--cu-primary);
+    border-radius: 50px;
+    padding: 2px 9px;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(26, 60, 143, 0.3);
+}
+
+/* Info card below the node */
+.cu-flow-card {
+    background: var(--cu-light2);
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+    border: 1.5px solid var(--cu-border);
+    box-shadow: 0 4px 20px rgba(26, 60, 143, 0.07);
+    transition: var(--cu-transition);
+    width: 100%;
+}
+
+.cu-flow-step:hover .cu-flow-card {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 32px rgba(26, 60, 143, 0.14);
+    border-color: rgba(26, 60, 143, 0.2);
+    background: white;
+}
+
+.cu-flow-card h3 {
+    font-size: 14px;
+    font-weight: 800;
     color: var(--cu-text);
     margin-bottom: 8px;
+    letter-spacing: -0.2px;
 }
 
-.cu-admission-step>p {
-    font-size: 13px;
+.cu-flow-card p {
+    font-size: 12.5px;
     color: var(--cu-muted);
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
-.cu-step-arrow {
+/* Arrow between steps */
+.cu-flow-connector {
     position: absolute;
-    right: -18px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    background: var(--cu-primary);
+    top: 20px;
+    right: -14px;
+    width: 28px;
+    height: 28px;
+    background: white;
+    border: 2px solid var(--cu-border);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 14px;
-    z-index: 3;
-    box-shadow: 0 4px 12px rgba(26, 60, 143, 0.3);
-    transition: var(--cu-transition);
+    color: var(--cu-primary);
+    font-size: 11px;
+    z-index: 4;
+    box-shadow: 0 2px 8px rgba(26, 60, 143, 0.15);
 }
 
-.cu-admission-step:hover .cu-step-icon {
-    transform: rotate(10deg) scale(1.15);
-    background: var(--cu-primary);
-    color: white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
+/* Admission bottom banner */
 .cu-admission-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--cu-light);
+    background: linear-gradient(135deg, var(--cu-light) 0%, #e8f0ff 100%);
     border-radius: 14px;
     padding: 20px 28px;
     border: 1.5px solid var(--cu-border);
+    box-shadow: 0 4px 16px rgba(26, 60, 143, 0.07);
 }
 
 .cu-admission-info {
@@ -1839,6 +2511,113 @@
 .cu-admission-info span {
     font-size: 13px;
     color: var(--cu-muted);
+}
+
+/* ── CAMPUS LIFE — MOSAIC ── */
+.cu-campus {
+    padding: 120px 0;
+    background: white;
+}
+
+.cu-campus-mosaic {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+    min-height: 520px;
+}
+
+/* Large hero image */
+.cu-campus-hero {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    min-height: 480px;
+}
+
+.cu-campus-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.cu-campus-hero:hover img {
+    transform: scale(1.04);
+}
+
+.cu-campus-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 24px 22px;
+    background: linear-gradient(transparent, rgba(6, 15, 55, 0.82));
+}
+
+.cu-campus-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cu-grad-gold);
+    color: #1a0a00;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 7px 16px;
+    border-radius: 50px;
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+}
+
+/* 4-tile right column */
+.cu-campus-tiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+}
+
+.cu-campus-tile {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.cu-campus-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.cu-campus-tile:hover img {
+    transform: scale(1.07);
+}
+
+.cu-tile-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 12px 10px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: white;
+    font-size: 11.5px;
+    font-weight: 700;
+    transition: padding 0.3s;
+}
+
+.cu-campus-tile:hover .cu-tile-label {
+    padding-bottom: 14px;
+}
+
+.cu-tile-label i {
+    font-size: 13px;
+    opacity: 0.9;
+    flex-shrink: 0;
 }
 
 /* ── GLOBAL EXPERIENCE ── */
@@ -2013,15 +2792,17 @@
 
 .cu-news-card {
     background: white;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 16px rgba(26, 60, 143, 0.07);
     transition: var(--cu-transition);
+    border: 1px solid var(--cu-border);
 }
 
 .cu-news-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
     box-shadow: var(--cu-shadow-lg);
+    border-color: rgba(26, 60, 143, 0.15);
 }
 
 .cu-news-img {
@@ -2045,14 +2826,15 @@
     position: absolute;
     top: 12px;
     left: 12px;
-    background: var(--cu-primary);
+    background: var(--cu-grad-primary);
     color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 12px;
     border-radius: 50px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(26, 60, 143, 0.3);
 }
 
 .cu-news-body {
